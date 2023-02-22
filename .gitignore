@@ -1,0 +1,12 @@
+config/conf.ini
+dags
+log
+.idea
+venv
+
+scraps.py
+features.txt
+notes.txt
+
+.DS_Store
+__pycache__
