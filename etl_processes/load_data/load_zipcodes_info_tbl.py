@@ -1,21 +1,23 @@
 import datetime
 import pandas as pd
+from pandas import DataFrame
 import time
 from connections.mysql_connections import get_mysql_connections
 from config.definitions import ROOT_DIR
 import os
 from sqlalchemy.exc import DBAPIError, SQLAlchemyError
-import traceback
 import logging
+
+from utilities.log import log
 
 """
 Following methods are going to be run only one time to ensure that data is cleaned and loaded into database.
 """
 
-LOG_FILE = "/Users/alibashir/Desktop/workspace/ETL/weather_data/log/log_{}.log".format(datetime.datetime.now())
+# LOG_FILE = "/Users/alibashir/Desktop/workspace/ETL/weather_data/log/log_{}.log".format(datetime.datetime.now())
 
 
-def _clean_zipcodes_info():
+def _clean_zipcodes_info() -> DataFrame:
     """
     This function loads the data from zip_code_database.csv file to pandas df, renames and cleans the columns name
     and returns it.
@@ -50,25 +52,19 @@ def _clean_zipcodes_info():
                             .str.replace("County", "")
                             .str.replace("Municipio", "").fillna("NA")
                             )
-    logging.debug("{} is ready to load".format(filename))
     return zipcode_df
 
 
-
-def load_zipcodes_info_tbl():
+def load_zipcodes_info_tbl(zipcode_df: DataFrame) -> None:
     """
     This function loads data into mysql table zipcodes_info
     :return: None
     """
-
-    zipcode_df = _clean_zipcodes_info()
     try:
         with get_mysql_connections().connect() as con:
-            zipcode_df.to_sql(name="zipcodes_info", con=con, index=False)
-            logging.info("zipcodes_info is successfully loaded with data")
-    except (DBAPIError, Exception):
-        logging.error(traceback.format_exc())
-        print("Some Error occurred")
+            rows_affected = zipcode_df.to_sql(name="zipcodes_info", if_exists="fail", con=con, index=False)
+    except (ValueError,DBAPIError, SQLAlchemyError) as e:
+        raise e
 
 
 def does_tbl_exist(table_name: str, schema_name: str = "zipcodes_db") -> bool:
@@ -87,7 +83,7 @@ def does_tbl_exist(table_name: str, schema_name: str = "zipcodes_db") -> bool:
     return False
 
 
-def does_db_exist():
+def does_db_exist() -> bool:
     query = """
         SHOW databases LIKE "zipcodes_db"
     """
@@ -100,12 +96,10 @@ def does_db_exist():
 
 
 if __name__ == "__main__":
-    logging.basicConfig(format="%(asctime)s - %(filename)s - %(levelname)s: %(message)s",
-                        level=logging.DEBUG)
     start_time = time.time()
     zipcode_df = _clean_zipcodes_info()
-    a = zipcode_df.iloc[307:310]
-    print(a)
-    # load_zipcodes_info_tbl()
-    # print(does_db_exist())
-    # print("%s seconds ---" % (time.time() - start_time))
+    # a = zipcode_df.iloc[307:310]
+    # print(a)
+    load_zipcodes_info_tbl(zipcode_df)
+
+    print("%s seconds ---" % (time.time() - start_time))

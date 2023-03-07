@@ -1,9 +1,11 @@
 import datetime
 import pandas as pd
+from pandas import DataFrame
 from etl_processes.fetch_data.fetch_data_api import fetch_weather_reports
+from utilities.log import log
 
 
-def clean_transform_weather_reports():
+def clean_transform_weather_reports() -> DataFrame:
     day_name = {
         0: "Monday",
         1: "Tuesday",
@@ -69,4 +71,3 @@ if __name__ == "__main__":
     import time
     start_time = time.time()
     weather_df_test = clean_transform_weather_reports()
-    weather_df_test.info()
