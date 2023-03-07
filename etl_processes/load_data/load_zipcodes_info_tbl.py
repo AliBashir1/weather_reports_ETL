@@ -1,12 +1,10 @@
-import datetime
 import pandas as pd
 from pandas import DataFrame
 import time
-from connections.mysql_connections import get_mysql_connections
 from config.definitions import ROOT_DIR
 import os
-from sqlalchemy.exc import DBAPIError, SQLAlchemyError
-import logging
+from sqlalchemy.exc import DBAPIError, SQLAlchemyError, IntegrityError
+from sqlalchemy.engine.base import Engine
 
 from utilities.log import log
 
@@ -14,20 +12,12 @@ from utilities.log import log
 Following methods are going to be run only one time to ensure that data is cleaned and loaded into database.
 """
 
-# LOG_FILE = "/Users/alibashir/Desktop/workspace/ETL/weather_data/log/log_{}.log".format(datetime.datetime.now())
-
-
+@log
 def _clean_zipcodes_info() -> DataFrame:
-    """
-    This function loads the data from zip_code_database.csv file to pandas df, renames and cleans the columns name
-    and returns it.
-    :return: a pandas dataframe type.
-    """
+    """Creates dataframe from zipcode.csv file, format and return a dataframe."""
     # build a path to the file.
     filename = "zip_code_database.csv"
     zipcode_file_path = os.path.join(ROOT_DIR, "in", filename)
-
-    # logging.debug("{} is being prepared to load into zipcodes_db.zipcodes_info".format(zipcode_file_path))
 
     zipcode_df = pd.read_csv(zipcode_file_path,
                              usecols=["zip",
@@ -54,20 +44,22 @@ def _clean_zipcodes_info() -> DataFrame:
                             )
     return zipcode_df
 
-
-def load_zipcodes_info_tbl(zipcode_df: DataFrame) -> None:
-    """
-    This function loads data into mysql table zipcodes_info
-    :return: None
-    """
+@log
+def load_zipcodes_info_tbl(zipcode_df: DataFrame, con: Engine = None) -> None:
+    """Loads zipcode_info tables"""
     try:
-        with get_mysql_connections().connect() as con:
-            rows_affected = zipcode_df.to_sql(name="zipcodes_info", if_exists="fail", con=con, index=False)
-    except (ValueError,DBAPIError, SQLAlchemyError) as e:
+        with con.connect() as con:
+            zipcode_df.to_sql(name="zipcodes_info", if_exists="append", con=con, index=False)
+
+            # if does_tbl_exist(table_name="zipcodes_info"):
+            #     q = "ALTER TABLE zipcodes_info ADD COLUMN `id` INT PRIMARY KEY AUTO_INCREMENT FIRST;"
+            #     con.execute(q)
+    except (ValueError,DBAPIError, SQLAlchemyError, IntegrityError) as e:
         raise e
 
-
-def does_tbl_exist(table_name: str, schema_name: str = "zipcodes_db") -> bool:
+@log
+def does_tbl_exist(table_name: str, schema_name: str = "zipcodes_db", con: Engine = None ) -> bool:
+    """Checks if the table exists."""
     query = """
     SELECT count(*)
     FROM information_schema.TABLES
@@ -75,19 +67,20 @@ def does_tbl_exist(table_name: str, schema_name: str = "zipcodes_db") -> bool:
             AND (TABLE_NAME = "{}")
     """.format(schema_name, table_name)
 
-    with get_mysql_connections().connect() as con:
+    with con.connect() as con:
         results = con.execute(query).first()[0]
         if results == 1:
             return True
 
     return False
 
-
-def does_db_exist() -> bool:
+@log
+def does_db_exist(con: Engine = None) -> bool:
+    """Checks if the database exists"""
     query = """
         SHOW databases LIKE "zipcodes_db"
     """
-    with get_mysql_connections().connect() as con:
+    with con.connect() as con:
         results = con.execute(query).first()[0]
         if results == "zipcodes_db":
             return True
@@ -96,10 +89,12 @@ def does_db_exist() -> bool:
 
 
 if __name__ == "__main__":
+    from connections.mysql_connections import get_mysql_connections
     start_time = time.time()
     zipcode_df = _clean_zipcodes_info()
     # a = zipcode_df.iloc[307:310]
     # print(a)
-    load_zipcodes_info_tbl(zipcode_df)
+    con = get_mysql_connections()
+    load_zipcodes_info_tbl(zipcode_df, con)
 
     print("%s seconds ---" % (time.time() - start_time))

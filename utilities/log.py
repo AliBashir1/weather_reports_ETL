@@ -3,61 +3,74 @@ import logging
 import os
 from datetime import date
 from config.definitions import ROOT_DIR
+from pandas import DataFrame, Series
 
 
-def get_logger():
-    FILENAME_INFO = f"{str(date.today())}.log"
-    ERROR_FILE = f"{str(date.today())}_errors.log"
-
-    LOG_FILE_PATH = os.path.join(ROOT_DIR, "log", FILENAME_INFO)
-    ERROR_FILE_PATH = os.path.join(ROOT_DIR, "log/error_log", ERROR_FILE)
+def _get_logger():
+    LOG_FILE = f"{str(date.today())}_errors.log"
+    LOG_FILE_PATH = os.path.join(ROOT_DIR, "log/error_log", LOG_FILE)
     # message and date formatter
     FORMATTER = logging.Formatter("%(asctime)s:%(levelname)s:%(message)s", "%Y-%m-%d %H:%M:%S")
 
 
     # handlers
-    file_handler = logging.FileHandler(LOG_FILE_PATH)
+    Log_file_handler = logging.FileHandler(LOG_FILE_PATH)
     stream_handler = logging.StreamHandler()
-    error_file_handler = logging.FileHandler(ERROR_FILE_PATH)
+
 
     # message format
-    file_handler.setFormatter(FORMATTER)
+    Log_file_handler.setFormatter(FORMATTER)
     stream_handler.setFormatter(FORMATTER)
-    error_file_handler.setFormatter(FORMATTER)
 
     # message level
-    file_handler.setLevel(logging.INFO)
     stream_handler.setLevel(logging.DEBUG)
-    error_file_handler.setLevel(logging.DEBUG)
+    Log_file_handler.setLevel(logging.DEBUG)
 
     logger = logging.getLogger()
     logger.setLevel(logging.DEBUG)
 
     # Add handler in logger
-    logger.addHandler(file_handler)
     logger.addHandler(stream_handler)
-    logger.addHandler(error_file_handler)
+    logger.addHandler(Log_file_handler)
 
     return logger
 
 
-logger = get_logger()
+logger = _get_logger()
 
 
 def log(func):
     @functools.wraps(func)
     def log_wrapper(*args, **kwargs):
-        logger.info(f":{func.__name__} is initiated.")
+        logger.info(":{}::{}".format(func.__name__, func.__doc__))
         try:
             result = func(*args, **kwargs)
-            if result is None:
-                logger.info(f":{func.__name__}: completed.")
+            temp = result
+            if type(temp) == DataFrame or Series or list or tuple:
+                temp = type(temp)
+            if temp is None:
+                logger.info(":{}::Completed.".format(func.__name__))
             else:
-                logger.info(f":{func.__name__}: completed with results {type(result)}.")
+                logger.info(":{}::Completed with results {}.".format(func.__name__, temp))
             return result
         except Exception as e:
-            logger.debug(f":{func.__name__}:message: {str(e)}")
-
+            logger.debug(":{}::message::{}".format(func.__name__, str(e)))
     return log_wrapper
 
 
+if __name__ == "__main__":
+    @log
+    def afunc():
+        return 3+5
+
+
+    @log
+    def afunc1():
+        return 6 + 5
+
+
+    @log
+    def afunc2():
+        return 7 + 5
+
+    afunc()

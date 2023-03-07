@@ -4,14 +4,13 @@ from connections.mysql_connections import get_mysql_connections
 from sqlalchemy import text
 from sqlalchemy.exc import DBAPIError
 from pymysql.err import ProgrammingError
-import sys
+from utilities.log import log
+from pandas import Series
 
 
-def fetch_most_populated_zipcodes():
-    """
-    This function runs the sql query to fetch most populated zipcodes group by county for now
-    :return: a pandas dataframe.
-    """
+@log
+def fetch_most_populated_zipcodes() -> Series:
+    """Query zipcodes_info to fetch most populated zipcodes in a county, converts to Series and returns it"""
     most_populated_zipcodes = None
 
     # a -- is a dataset of zipcodes with no military(Afo, Pfo) and zipcodes with population greater than zero.
@@ -40,10 +39,8 @@ def fetch_most_populated_zipcodes():
     try:
         with get_mysql_connections().connect() as con:
             most_populated_zipcodes = pd.read_sql_query(sql=text(query), con=con, )
-
-    except DBAPIError or ProgrammingError:
-        pass
-        # todo log it
+    except DBAPIError or ProgrammingError as e:
+        raise e
 
     if most_populated_zipcodes is not None:
         return most_populated_zipcodes.squeeze()
@@ -53,7 +50,8 @@ if __name__ == "__main__":
     import time
     start = time.time()
     a = fetch_most_populated_zipcodes()
-    if a is not None:
-        a = a["zipcode"].astype(str).str.zfill(5)
+    # print(a["zipcode"])
+    # if a is not None:
+    #     a = a["zipcode"].astype(str).str.zfill(5)
     print("execution ended in {}".format(time.time() - start))
 

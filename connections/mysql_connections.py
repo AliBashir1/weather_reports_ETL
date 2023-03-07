@@ -57,6 +57,7 @@ def __decrypt(key, encrypted_password):
 
 if __name__ == "__main__":
     a = get_mysql_connections()
+    print(type(a))
     with a.connect() as con:
         a = con.execute(text("Select * from zipcodes_info;"))
         print(a.fetchall())
