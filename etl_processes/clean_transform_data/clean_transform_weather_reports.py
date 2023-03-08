@@ -4,6 +4,7 @@ from pandas import DataFrame
 from typing import List
 from utilities.log import log
 
+
 @log
 def clean_transform_weather_reports(weather_reports: List[dict] = None) -> DataFrame:
     """Transforms Weather_reports to Pandas Dataframe, adds fields like day_of_week,local_time,etc """
@@ -21,6 +22,7 @@ def clean_transform_weather_reports(weather_reports: List[dict] = None) -> DataF
     local_time_list: list = []
     condition_list: list = []
     day_of_week_list: list = []
+
     if weather_reports is not None:
         # Current is json for weather details, dataframe needs it keys as column values to store data.
         column_names = [key for key in weather_reports[0]["current"].keys()]
@@ -51,6 +53,7 @@ def clean_transform_weather_reports(weather_reports: List[dict] = None) -> DataF
                        "uv",
                        "gust_mph"
                        ]
+        
         # Create dataframe from multi dimension list, and fetch only columns needed.
         weather_df = pd.DataFrame(data=weather_list, columns=column_names)[column_list]
 

@@ -36,6 +36,5 @@ if __name__ == "__main__":
     load_weather_reports_tbl(weather_reports_df, eng)
 
 
-
     print("load_weather_report_tbl load time in seconds -- {}".format(time.time() - start_time))
 

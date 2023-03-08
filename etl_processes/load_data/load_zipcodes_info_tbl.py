@@ -1,7 +1,7 @@
 import pandas as pd
 from pandas import DataFrame
 import time
-from config.definitions import ROOT_DIR
+from utilities.definitions import ROOT_DIR
 import os
 from sqlalchemy.exc import DBAPIError, SQLAlchemyError, IntegrityError
 from sqlalchemy.engine.base import Engine
@@ -11,6 +11,7 @@ from utilities.log import log
 """
 Following methods are going to be run only one time to ensure that data is cleaned and loaded into database.
 """
+
 
 @log
 def _clean_zipcodes_info() -> DataFrame:
@@ -44,6 +45,7 @@ def _clean_zipcodes_info() -> DataFrame:
                             )
     return zipcode_df
 
+
 @log
 def load_zipcodes_info_tbl(zipcode_df: DataFrame, con: Engine = None) -> None:
     """Loads zipcode_info tables"""
@@ -54,11 +56,12 @@ def load_zipcodes_info_tbl(zipcode_df: DataFrame, con: Engine = None) -> None:
             # if does_tbl_exist(table_name="zipcodes_info"):
             #     q = "ALTER TABLE zipcodes_info ADD COLUMN `id` INT PRIMARY KEY AUTO_INCREMENT FIRST;"
             #     con.execute(q)
-    except (ValueError,DBAPIError, SQLAlchemyError, IntegrityError) as e:
+    except (ValueError, DBAPIError, SQLAlchemyError, IntegrityError) as e:
         raise e
 
+
 @log
-def does_tbl_exist(table_name: str, schema_name: str = "zipcodes_db", con: Engine = None ) -> bool:
+def does_tbl_exist(table_name: str, schema_name: str = "zipcodes_db", con: Engine = None) -> bool:
     """Checks if the table exists."""
     query = """
     SELECT count(*)
@@ -73,6 +76,7 @@ def does_tbl_exist(table_name: str, schema_name: str = "zipcodes_db", con: Engin
             return True
 
     return False
+
 
 @log
 def does_db_exist(con: Engine = None) -> bool:
@@ -90,6 +94,7 @@ def does_db_exist(con: Engine = None) -> bool:
 
 if __name__ == "__main__":
     from connections.mysql_connections import get_mysql_connections
+
     start_time = time.time()
     zipcode_df = _clean_zipcodes_info()
     # a = zipcode_df.iloc[307:310]

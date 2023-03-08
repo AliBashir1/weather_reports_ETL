@@ -1,22 +1,22 @@
 import functools
 import logging
+from logging import Logger
 import os
 from datetime import date
-from config.definitions import ROOT_DIR
+from utilities.definitions import ROOT_DIR
 from pandas import DataFrame, Series
 
 
-def _get_logger():
+def _get_logger() -> Logger:
+    """Initiate Logger, add log_file and stream handler to it, returns an instance of Logger"""
     LOG_FILE = f"{str(date.today())}_errors.log"
     LOG_FILE_PATH = os.path.join(ROOT_DIR, "log/error_log", LOG_FILE)
     # message and date formatter
     FORMATTER = logging.Formatter("%(asctime)s:%(levelname)s:%(message)s", "%Y-%m-%d %H:%M:%S")
 
-
     # handlers
     Log_file_handler = logging.FileHandler(LOG_FILE_PATH)
     stream_handler = logging.StreamHandler()
-
 
     # message format
     Log_file_handler.setFormatter(FORMATTER)
@@ -26,6 +26,7 @@ def _get_logger():
     stream_handler.setLevel(logging.DEBUG)
     Log_file_handler.setLevel(logging.DEBUG)
 
+    # initiate RootLogger
     logger = logging.getLogger()
     logger.setLevel(logging.DEBUG)
 
@@ -36,15 +37,19 @@ def _get_logger():
     return logger
 
 
+# todo find better way to handle this
 logger = _get_logger()
 
 
 def log(func):
+    """Logs functions activity to log_file and stream"""
+
     @functools.wraps(func)
     def log_wrapper(*args, **kwargs):
         logger.info(":{}::{}".format(func.__name__, func.__doc__))
         try:
             result = func(*args, **kwargs)
+            # return type is used for logging purposes.
             temp = result
             if type(temp) == DataFrame or Series or list or tuple:
                 temp = type(temp)
@@ -55,13 +60,14 @@ def log(func):
             return result
         except Exception as e:
             logger.debug(":{}::message::{}".format(func.__name__, str(e)))
+
     return log_wrapper
 
 
 if __name__ == "__main__":
     @log
     def afunc():
-        return 3+5
+        return 3 + 5
 
 
     @log
@@ -72,5 +78,6 @@ if __name__ == "__main__":
     @log
     def afunc2():
         return 7 + 5
+
 
     afunc()

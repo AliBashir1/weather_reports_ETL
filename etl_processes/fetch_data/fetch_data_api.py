@@ -37,7 +37,6 @@ def fetch_weather_reports(zipcodes_series: Series = None, session: Session = Non
             raise AttributeError("Attribute reference or assignment failed.")
 
     if weather_reports:
-        print(type(weather_reports))
         return weather_reports
 
 
