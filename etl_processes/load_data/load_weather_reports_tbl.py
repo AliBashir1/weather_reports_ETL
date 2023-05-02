@@ -25,12 +25,12 @@ if __name__ == "__main__":
     from connections.mysql_connections import get_mysql_connections
     from etl_processes.fetch_data.fetch_data_db import fetch_most_populated_zipcodes
     from etl_processes.fetch_data.fetch_data_api import fetch_weather_reports
-    from etl_processes.clean_transform_data.clean_transform_weather_reports import clean_transform_weather_reports
+    from etl_processes.clean_transform_data.clean_transform_weather_reports import clean_transform_weather_reports, clean_transform_weather_reports_1
 
     zipcodes = fetch_most_populated_zipcodes()
     session = get_weather_api_session()
     weather_reports = fetch_weather_reports(zipcodes, session)
-    weather_reports_df = clean_transform_weather_reports(weather_reports)
+    weather_reports_df = clean_transform_weather_reports_1(weather_reports)
     eng = get_mysql_connections()
 
     load_weather_reports_tbl(weather_reports_df, eng)

@@ -1,4 +1,3 @@
-import datetime
 import pandas as pd
 from pandas import DataFrame
 from typing import List
@@ -7,72 +6,37 @@ from utilities.log import log
 
 @log
 def clean_transform_weather_reports(weather_reports: List[dict] = None) -> DataFrame:
-    """Transforms Weather_reports to Pandas Dataframe, adds fields like day_of_week,local_time,etc """
-    day_name = {
-        0: "Monday",
-        1: "Tuesday",
-        2: "Wednesday",
-        3: "Thursday",
-        4: "Friday",
-        5: "Saturday",
-        6: "Sunday"
-    }
-    weather_list: list = []
-    zipcode_list: list = []
-    local_time_list: list = []
-    condition_list: list = []
-    day_of_week_list: list = []
-
+    """Transforms Weather_reports to Pandas Dataframe, adds fields like day_of_week,local_time,etc. """
     if weather_reports is not None:
-        # Current is json for weather details, dataframe needs it keys as column values to store data.
-        column_names = [key for key in weather_reports[0]["current"].keys()]
+        # normalize json format, convert to df and concat it
+        weather_df = pd.concat([pd.json_normalize(report) for report in weather_reports])
 
-        # loop through weather_reports, create a multi dimensional list weather_df
-        # add corresponding zipcode to zipcode list, which will be added as column in weather_df
-        for data in weather_reports:
-            weather_list.append([value for value in data["current"].values()])
-            zipcode_list.append(data["zipcode"])
-            local_time_list.append(data["location"]["localtime"])
-            condition_list.append(data["current"]["condition"]["text"])
-            day = datetime.datetime.fromtimestamp(data["location"]["localtime_epoch"]).weekday()
-            day_of_week_list.append(day_name[day])
+        # Convert data_type
+        weather_df.insert(loc=1, column="local_time", value=pd.to_datetime(weather_df["location.localtime"]))
+        weather_df.insert(loc=2, column="last_updated", value=pd.to_datetime(weather_df["current.last_updated"]))
 
-        # Following columns are required in weather_reports_data set.
-        column_list = ["last_updated",
-                       "temp_f",
-                       "condition",
-                       "wind_mph",
-                       "wind_degree",
-                       "wind_dir",
-                       "pressure_mb",
-                       "precip_mm",
-                       "humidity",
-                       "cloud",
-                       "feelslike_f",
-                       "vis_miles",
-                       "uv",
-                       "gust_mph"
-                       ]
-        
-        # Create dataframe from multi dimension list, and fetch only columns needed.
-        weather_df = pd.DataFrame(data=weather_list, columns=column_names)[column_list]
+        # adds day name
+        weather_df.insert(loc=3, column="day_of_week", value=weather_df["local_time"].dt.day_name())
 
-        # Add zipcode and localtime
-        weather_df.insert(loc=0, column="zipcode", value=zipcode_list)
-        weather_df.insert(loc=1, column="local_time", value=local_time_list)
-        weather_df.insert(loc=3, column="day_of_week", value=day_of_week_list)
+        # drop columns unneeded columns
+        drop_columns_list = ['location.name', 'location.region', 'location.country', 'location.lat', 'location.lon',
+                             'location.tz_id', 'location.localtime_epoch', 'location.localtime',
+                             'current.last_updated_epoch', 'current.last_updated', 'current.temp_c', 'current.is_day',
+                             'current.condition.icon', 'current.condition.code', 'current.wind_kph', 'current.pressure_in',
+                             'current.precip_in', 'current.feelslike_c', 'current.vis_km', 'current.gust_kph']
+        weather_df = weather_df.drop(drop_columns_list, axis=1)
 
-        # change columns to appropriate dtypes and changed the name
-        weather_df["last_updated"] = pd.to_datetime(weather_df["last_updated"])
-        weather_df["local_time"] = pd.to_datetime(weather_df["local_time"])
-        weather_df["condition"] = condition_list
+        # clean up column name
+        # split converts current.condition.text to ["current", "condition", "text"]
+        weather_df.columns = [column[0] if len(column) == 1 else column[1] for column in weather_df.columns.str.split(".")]
+
         return weather_df
     else:
-        raise AttributeError("Attribute reference or assignment failed.")
-
+        raise AttributeError("Weather Report cannot be None")
 
 if __name__ == "__main__":
     import time
+
     start_time = time.time()
     from connections.api_connection import get_weather_api_session
     from etl_processes.fetch_data.fetch_data_db import fetch_most_populated_zipcodes
@@ -82,6 +46,5 @@ if __name__ == "__main__":
     session = get_weather_api_session()
     weather_reports = fetch_weather_reports(zipcodes, session)
     weather_reports_df = clean_transform_weather_reports(weather_reports)
-    print(time.time() -start_time)
+    print(time.time() - start_time)
     print(weather_reports_df)
-

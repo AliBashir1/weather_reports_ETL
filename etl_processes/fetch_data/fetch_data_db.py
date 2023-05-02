@@ -1,4 +1,3 @@
-
 import pandas as pd
 from connections.mysql_connections import get_mysql_connections
 from sqlalchemy import text

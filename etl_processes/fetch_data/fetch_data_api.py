@@ -11,6 +11,8 @@ def fetch_weather_reports(zipcodes_series: Series = None, session: Session = Non
     URL = "https://weatherapi-com.p.rapidapi.com/current.json"
     weather_reports = []
     count = 0
+    location_data = {}
+
 
     if ~zipcodes_series.empty and session is not None:
         # Api takes 5 digits, some of zipcodes are less than 5, add leading 0 to it
@@ -27,7 +29,7 @@ def fetch_weather_reports(zipcodes_series: Series = None, session: Session = Non
                 # todo delete following code
                 # temporary limit api calls.
                 count += 1
-                if count > 100:
+                if count > 5:
                     break
 
             except HTTPError as exc:
@@ -44,9 +46,12 @@ if __name__ == "__main__":
     import time
     from etl_processes.fetch_data.fetch_data_db import fetch_most_populated_zipcodes
     from connections.api_connection import get_weather_api_session
+
+    start_time = time.time()
     session = get_weather_api_session()
     zipcodes_series = fetch_most_populated_zipcodes()
-    start_time = time.time()
+    print(zipcodes_series)
+
     a = fetch_weather_reports(zipcodes_series, session)
     print("fetch_weather_reports time -- {}".format(time.time() - start_time))
 

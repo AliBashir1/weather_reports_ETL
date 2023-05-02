@@ -70,6 +70,7 @@ if __name__ == "__main__":
         return 3 + 5
 
 
+
     @log
     def afunc1():
         return 6 + 5
