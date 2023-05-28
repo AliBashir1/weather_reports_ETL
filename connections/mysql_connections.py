@@ -3,7 +3,7 @@ from sqlalchemy.engine.base import Engine
 from utilities.encryptions import __decrypt
 from utilities.config_parser import get_config_parser
 
-
+# add lru_cache to reduce function execution time
 def get_mysql_connections() -> Engine:
     """Initiate SQL Alchemy Engine with configuration and returns it"""
     config = get_config_parser()

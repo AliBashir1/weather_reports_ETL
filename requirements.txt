@@ -133,3 +133,6 @@ Werkzeug==2.2.2
 wrapt==1.14.1
 WTForms==3.0.1
 zipp==3.11.0
+
+boto3~=1.26.125
+botocore~=1.29.125

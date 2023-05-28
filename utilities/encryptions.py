@@ -24,8 +24,8 @@ def __decrypt(key: str = None, encrypted_password: str = None) -> str:
 if __name__ == "__main__":
     from utilities.config_parser import get_config_parser
     config = get_config_parser()
-    con_str = config.get("MYSQLDB", "MYSQL_AD_CON")
+    con_str = config.get("AWS", "aws_secret_access_key")
     key = config.get("KEY", "KEY")
     a = __decrypt(key, con_str)
-    print(key, con_str, a)
+    print( a)
 

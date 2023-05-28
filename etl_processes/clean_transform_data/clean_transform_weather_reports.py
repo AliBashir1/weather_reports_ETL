@@ -3,6 +3,7 @@ from pandas import DataFrame
 from typing import List
 from utilities.log import log
 
+# add lru_cache decorator for faster execution.
 
 @log
 def clean_transform_weather_reports(weather_reports: List[dict] = None) -> DataFrame:
