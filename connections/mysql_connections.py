@@ -2,8 +2,13 @@ from sqlalchemy import create_engine, text
 from sqlalchemy.engine.base import Engine
 from utilities.encryptions import __decrypt
 from utilities.config_parser import get_config_parser
+from functools import lru_cache
+from utilities.log import log
+
 
 # add lru_cache to reduce function execution time
+@lru_cache
+@log
 def get_mysql_connections() -> Engine:
     """Initiate SQL Alchemy Engine with configuration and returns it"""
     config = get_config_parser()

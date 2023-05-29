@@ -37,9 +37,11 @@ def fetch_most_populated_zipcodes() -> Series:
 
     try:
         with get_mysql_connections().connect() as con:
-            most_populated_zipcodes = pd.read_sql_query(sql=text(query), con=con, )
+            most_populated_zipcodes = pd.read_sql_query(sql=text(query), con=con )
+
     except DBAPIError or ProgrammingError as e:
         raise e
+
 
     if most_populated_zipcodes is not None:
         return most_populated_zipcodes.squeeze()

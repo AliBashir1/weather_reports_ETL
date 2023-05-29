@@ -28,8 +28,9 @@ def load_weather_staging_data_s3(s3_client: BaseClient, staging_data: list) -> b
     data = json.dumps(staging_data)
     now = dt.datetime.now(pytz.timezone("America/New_York"))
 
-    # most-populated-zipcodes/weather-reports/2023-05-24/reports-03-PM
-    key = f"weather-reports/{now.strftime('%Y-%m-%d')}/report-{now.strftime('%I-%p')}"
+    # weather-reports/2023-05-24/03-PM
+
+    key = f"weather-reports/{now.strftime('%Y-%m-%d')}/{now.strftime('%I-%p')}"
 
     try:
         resp = s3_client.put_object(Bucket=bucket_name, Key=key, Body=data, ACL='private')
