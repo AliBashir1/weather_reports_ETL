@@ -1,0 +1,32 @@
+2023-06-24 00:17:49:INFO::get_weather_api_session:: Fetch requests.session() object
+2023-06-24 00:17:49:INFO::get_weather_api_session::Completed with results <class 'requests.sessions.Session'>.
+2023-06-24 00:17:49:DEBUG:Starting new HTTPS connection (1): weatherapi-com.p.rapidapi.com:443
+2023-06-24 00:17:50:DEBUG:https://weatherapi-com.p.rapidapi.com:443 "GET /current.json?q=10314 HTTP/1.1" 200 None
+2023-06-24 00:21:19:INFO::get_weather_api_session:: Fetch requests.session() object
+2023-06-24 00:21:19:INFO::get_weather_api_session::Completed with results <class 'requests.sessions.Session'>.
+2023-06-24 00:21:19:DEBUG:Starting new HTTPS connection (1): weatherapi-com.p.rapidapi.com:443
+2023-06-24 00:21:20:DEBUG:https://weatherapi-com.p.rapidapi.com:443 "GET /current.json?q=10314 HTTP/1.1" 200 None
+2023-06-24 00:29:01:INFO::get_weather_api_session:: Fetch requests.session() object
+2023-06-24 00:29:01:INFO::get_weather_api_session::Completed with results <class 'requests.sessions.Session'>.
+2023-06-24 00:29:01:DEBUG:Starting new HTTPS connection (1): weatherapi-com.p.rapidapi.com:443
+2023-06-24 00:29:03:DEBUG:https://weatherapi-com.p.rapidapi.com:443 "GET /current.json?q=10314 HTTP/1.1" 200 None
+2023-06-24 06:20:56:INFO::get_weather_db_conn::Initiate SQL Alchemy Engine with configuration and returns it
+2023-06-24 06:20:56:INFO::__decrypt::Decrypt the encrypted password using provided key and returns string type password
+2023-06-24 06:20:56:INFO::__decrypt::Completed with results <class 'str'>.
+2023-06-24 06:20:56:INFO::get_weather_db_conn::Completed with results <class 'sqlalchemy.engine.base.Engine'>.
+2023-06-24 06:27:40:INFO::get_weather_db_conn::Initiate SQL Alchemy Engine with configuration and returns it
+2023-06-24 06:27:40:INFO::__decrypt::Decrypt the encrypted password using provided key and returns string type password
+2023-06-24 06:27:40:INFO::__decrypt::Completed with results <class 'str'>.
+2023-06-24 06:27:40:INFO::get_weather_db_conn::Completed with results <class 'sqlalchemy.engine.base.Engine'>.
+2023-06-24 06:29:33:INFO::get_weather_db_conn::Initiate SQL Alchemy Engine with configuration and returns it
+2023-06-24 06:29:33:INFO::__decrypt::Decrypt the encrypted password using provided key and returns string type password
+2023-06-24 06:29:33:INFO::__decrypt::Completed with results <class 'str'>.
+2023-06-24 06:29:33:INFO::get_weather_db_conn::Completed with results <class 'sqlalchemy.engine.base.Engine'>.
+2023-06-24 06:30:31:INFO::get_weather_db_conn::Initiate SQL Alchemy Engine with configuration and returns it
+2023-06-24 06:30:31:INFO::__decrypt::Decrypt the encrypted password using provided key and returns string type password
+2023-06-24 06:30:31:INFO::__decrypt::Completed with results <class 'str'>.
+2023-06-24 06:30:31:INFO::get_weather_db_conn::Completed with results <class 'sqlalchemy.engine.base.Engine'>.
+2023-06-24 06:33:05:INFO::get_weather_db_conn::Initiate SQL Alchemy Engine with configuration and returns it
+2023-06-24 06:33:05:INFO::__decrypt::Decrypt the encrypted password using provided key and returns string type password
+2023-06-24 06:33:05:INFO::__decrypt::Completed with results <class 'str'>.
+2023-06-24 06:33:05:INFO::get_weather_db_conn::Completed with results <class 'sqlalchemy.engine.base.Engine'>.

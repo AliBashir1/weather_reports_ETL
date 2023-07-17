@@ -1,0 +1,118 @@
+2023-06-23 16:37:57:INFO::get_weather_api_session:: Fetch requests.session() object
+2023-06-23 16:37:57:INFO::get_weather_api_session::Completed with results <class 'requests.sessions.Session'>.
+2023-06-23 16:37:58:DEBUG:Starting new HTTPS connection (1): weatherapi-com.p.rapidapi.com:443
+2023-06-23 16:37:58:DEBUG:https://weatherapi-com.p.rapidapi.com:443 "GET /current.json?q=10314 HTTP/1.1" 200 None
+2023-06-23 16:38:05:INFO::get_s3_client::None
+2023-06-23 16:38:05:INFO::__decrypt::Decrypt the encrypted password using provided key and returns string type password
+2023-06-23 16:38:05:DEBUG::__decrypt::message::encoding without a string argument
+2023-06-23 16:38:05:INFO::__decrypt::Decrypt the encrypted password using provided key and returns string type password
+2023-06-23 16:38:05:DEBUG::__decrypt::message::encoding without a string argument
+2023-06-23 16:38:05:DEBUG:Changing event name from creating-client-class.iot-data to creating-client-class.iot-data-plane
+2023-06-23 16:38:05:DEBUG:Changing event name from before-call.apigateway to before-call.api-gateway
+2023-06-23 16:38:05:DEBUG:Changing event name from request-created.machinelearning.Predict to request-created.machine-learning.Predict
+2023-06-23 16:38:05:DEBUG:Changing event name from before-parameter-build.autoscaling.CreateLaunchConfiguration to before-parameter-build.auto-scaling.CreateLaunchConfiguration
+2023-06-23 16:38:05:DEBUG:Changing event name from before-parameter-build.route53 to before-parameter-build.route-53
+2023-06-23 16:38:05:DEBUG:Changing event name from request-created.cloudsearchdomain.Search to request-created.cloudsearch-domain.Search
+2023-06-23 16:38:05:DEBUG:Changing event name from docs.*.autoscaling.CreateLaunchConfiguration.complete-section to docs.*.auto-scaling.CreateLaunchConfiguration.complete-section
+2023-06-23 16:38:05:DEBUG:Changing event name from before-parameter-build.logs.CreateExportTask to before-parameter-build.cloudwatch-logs.CreateExportTask
+2023-06-23 16:38:05:DEBUG:Changing event name from docs.*.logs.CreateExportTask.complete-section to docs.*.cloudwatch-logs.CreateExportTask.complete-section
+2023-06-23 16:38:05:DEBUG:Changing event name from before-parameter-build.cloudsearchdomain.Search to before-parameter-build.cloudsearch-domain.Search
+2023-06-23 16:38:05:DEBUG:Changing event name from docs.*.cloudsearchdomain.Search.complete-section to docs.*.cloudsearch-domain.Search.complete-section
+2023-06-23 16:38:05:DEBUG:IMDS ENDPOINT: http://169.254.169.254/
+2023-06-23 16:38:05:DEBUG:Looking for credentials via: env
+2023-06-23 16:38:05:DEBUG:Looking for credentials via: assume-role
+2023-06-23 16:38:05:DEBUG:Looking for credentials via: assume-role-with-web-identity
+2023-06-23 16:38:05:DEBUG:Looking for credentials via: sso
+2023-06-23 16:38:05:DEBUG:Looking for credentials via: shared-credentials-file
+2023-06-23 16:38:05:INFO:Found credentials in shared credentials file: ~/.aws/credentials
+2023-06-23 16:38:05:DEBUG:Loading JSON file: /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_ETL/venv/lib/python3.8/site-packages/botocore/data/endpoints.json
+2023-06-23 16:38:05:DEBUG:Loading JSON file: /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_ETL/venv/lib/python3.8/site-packages/botocore/data/sdk-default-configuration.json
+2023-06-23 16:38:05:DEBUG:Event choose-service-name: calling handler <function handle_service_name_alias at 0x106475280>
+2023-06-23 16:38:05:DEBUG:Loading JSON file: /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_ETL/venv/lib/python3.8/site-packages/botocore/data/s3/2006-03-01/service-2.json
+2023-06-23 16:38:05:DEBUG:Loading JSON file: /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_ETL/venv/lib/python3.8/site-packages/botocore/data/s3/2006-03-01/endpoint-rule-set-1.json.gz
+2023-06-23 16:38:05:DEBUG:Loading JSON file: /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_ETL/venv/lib/python3.8/site-packages/botocore/data/partitions.json
+2023-06-23 16:38:05:DEBUG:Event creating-client-class.s3: calling handler <function add_generate_presigned_post at 0x1063b9280>
+2023-06-23 16:38:05:DEBUG:Event creating-client-class.s3: calling handler <function lazy_call.<locals>._handler at 0x13d6e60d0>
+2023-06-23 16:38:05:DEBUG:Event creating-client-class.s3: calling handler <function add_generate_presigned_url at 0x1063b9040>
+2023-06-23 16:38:05:DEBUG:Setting s3 timeout as (120, 120)
+2023-06-23 16:38:05:DEBUG:Loading JSON file: /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_ETL/venv/lib/python3.8/site-packages/botocore/data/_retry.json
+2023-06-23 16:38:05:DEBUG:Registering retry handlers for service: s3
+2023-06-23 16:38:05:DEBUG:Registering S3 region redirector handler
+2023-06-23 16:38:05:INFO::get_s3_client::Completed with results <class 'botocore.client.S3'>.
+2023-06-23 16:38:05:DEBUG:Event before-endpoint-resolution.s3: calling handler <function customize_endpoint_resolver_builtins at 0x1064a6940>
+2023-06-23 16:38:05:DEBUG:Event before-endpoint-resolution.s3: calling handler <bound method S3RegionRedirectorv2.redirect_from_cache of <botocore.utils.S3RegionRedirectorv2 object at 0x13e280220>>
+2023-06-23 16:38:05:DEBUG:Calling endpoint provider with parameters: {'Bucket': 'what_is_this', 'Region': 'us-east-1', 'UseFIPS': False, 'UseDualStack': False, 'ForcePathStyle': False, 'Accelerate': False, 'UseGlobalEndpoint': True, 'DisableAccessPoints': True, 'DisableMultiRegionAccessPoints': False, 'UseArnRegion': True}
+2023-06-23 16:38:05:DEBUG:Endpoint provider result: https://s3.amazonaws.com/what_is_this
+2023-06-23 16:38:05:DEBUG:Selecting from endpoint provider's list of auth schemes: "sigv4". User selected auth scheme is: "None"
+2023-06-23 16:38:05:DEBUG:Selected auth type "v4" as "v4" with signing context params: {'region': 'us-east-1', 'signing_name': 's3', 'disableDoubleEncoding': True}
+2023-06-23 16:38:05:DEBUG:Event before-parameter-build.s3.CreateBucket: calling handler <function validate_bucket_name at 0x1064a0940>
+2023-06-23 16:38:05:DEBUG:Event before-parameter-build.s3.CreateBucket: calling handler <function remove_bucket_from_url_paths_from_model at 0x1064a6790>
+2023-06-23 16:38:05:DEBUG:Event before-parameter-build.s3.CreateBucket: calling handler <bound method S3RegionRedirectorv2.annotate_request_context of <botocore.utils.S3RegionRedirectorv2 object at 0x13e280220>>
+2023-06-23 16:38:05:DEBUG:Event before-parameter-build.s3.CreateBucket: calling handler <function generate_idempotent_uuid at 0x1064a0790>
+2023-06-23 16:38:05:DEBUG:Event before-call.s3.CreateBucket: calling handler <function add_expect_header at 0x1064a0ca0>
+2023-06-23 16:38:05:DEBUG:Event before-call.s3.CreateBucket: calling handler <function add_recursion_detection_header at 0x1064a0430>
+2023-06-23 16:38:05:DEBUG:Event before-call.s3.CreateBucket: calling handler <function inject_api_version_header_if_needed at 0x1064a6040>
+2023-06-23 16:38:05:DEBUG:Making request for OperationModel(name=CreateBucket) with params: {'url_path': '', 'query_string': {}, 'method': 'PUT', 'headers': {'User-Agent': 'Boto3/1.26.125 Python/3.8.16 Darwin/21.4.0 Botocore/1.29.125'}, 'body': b'', 'auth_path': '/what_is_this/', 'url': 'https://s3.amazonaws.com/what_is_this', 'context': {'client_region': 'us-east-1', 'client_config': <botocore.config.Config object at 0x13e1183a0>, 'has_streaming_input': False, 'auth_type': 'v4', 'signing': {'region': 'us-east-1', 'signing_name': 's3', 'disableDoubleEncoding': True}, 's3_redirect': {'redirected': False, 'bucket': 'what_is_this', 'params': {'Bucket': 'what_is_this'}}}}
+2023-06-23 16:38:05:DEBUG:Event request-created.s3.CreateBucket: calling handler <bound method RequestSigner.handler of <botocore.signers.RequestSigner object at 0x13e1183d0>>
+2023-06-23 16:38:05:DEBUG:Event choose-signer.s3.CreateBucket: calling handler <bound method ClientCreator._default_s3_presign_to_sigv2 of <botocore.client.ClientCreator object at 0x13d714d30>>
+2023-06-23 16:38:05:DEBUG:Event choose-signer.s3.CreateBucket: calling handler <function set_operation_specific_signer at 0x1064a0670>
+2023-06-23 16:38:05:DEBUG:Event before-sign.s3.CreateBucket: calling handler <function remove_arn_from_signing_path at 0x1064a68b0>
+2023-06-23 16:38:05:DEBUG:Calculating signature using v4 auth.
+2023-06-23 16:38:05:DEBUG:CanonicalRequest:
+PUT
+/what_is_this
+
+host:s3.amazonaws.com
+x-amz-content-sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+x-amz-date:20230623T203805Z
+
+host;x-amz-content-sha256;x-amz-date
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+2023-06-23 16:38:05:DEBUG:StringToSign:
+AWS4-HMAC-SHA256
+20230623T203805Z
+20230623/us-east-1/s3/aws4_request
+ee7753c3a46b2b61a1003372a600505b4cb34a86a063f092a5f9fbc0c8c3c7f6
+2023-06-23 16:38:05:DEBUG:Signature:
+f5fd1c51849e39ff6da6e93fa46070b530462d0ae7ce2a91bb9d17418b7d3d7d
+2023-06-23 16:38:05:DEBUG:Event request-created.s3.CreateBucket: calling handler <function add_retry_headers at 0x1064a6700>
+2023-06-23 16:38:05:DEBUG:Sending http request: <AWSPreparedRequest stream_output=False, method=PUT, url=https://s3.amazonaws.com/what_is_this, headers={'User-Agent': b'Boto3/1.26.125 Python/3.8.16 Darwin/21.4.0 Botocore/1.29.125', 'X-Amz-Date': b'20230623T203805Z', 'X-Amz-Content-SHA256': b'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', 'Authorization': b'AWS4-HMAC-SHA256 Credential=AKIAXI4BC3FXUKYJKHBB/20230623/us-east-1/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=f5fd1c51849e39ff6da6e93fa46070b530462d0ae7ce2a91bb9d17418b7d3d7d', 'amz-sdk-invocation-id': b'fb733725-0d37-49f3-aa4b-ae58f9b9ea9c', 'amz-sdk-request': b'attempt=1', 'Content-Length': '0'}>
+2023-06-23 16:38:05:DEBUG:Certificate path: /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_ETL/venv/lib/python3.8/site-packages/certifi/cacert.pem
+2023-06-23 16:38:05:DEBUG:Starting new HTTPS connection (1): s3.amazonaws.com:443
+2023-06-23 16:38:05:DEBUG:https://s3.amazonaws.com:443 "PUT /what_is_this HTTP/1.1" 400 None
+2023-06-23 16:38:05:DEBUG:Response headers: {'x-amz-request-id': 'FMYEDNSSHC3WBAGQ', 'x-amz-id-2': 'isbn5f++TVGGDRUX9a4VjR+udCBG/y5KOW/6BF05zxZD0LXBL8BdBZbN0GysE04Nhuxw9zjVKaY=', 'Content-Type': 'application/xml', 'Transfer-Encoding': 'chunked', 'Date': 'Fri, 23 Jun 2023 20:38:04 GMT', 'Server': 'AmazonS3', 'Connection': 'close'}
+2023-06-23 16:38:05:DEBUG:Response body:
+b'<?xml version="1.0" encoding="UTF-8"?>\n<Error><Code>InvalidBucketName</Code><Message>The specified bucket is not valid.</Message><BucketName>what_is_this</BucketName><RequestId>FMYEDNSSHC3WBAGQ</RequestId><HostId>isbn5f++TVGGDRUX9a4VjR+udCBG/y5KOW/6BF05zxZD0LXBL8BdBZbN0GysE04Nhuxw9zjVKaY=</HostId></Error>'
+2023-06-23 16:38:05:DEBUG:Event needs-retry.s3.CreateBucket: calling handler <botocore.retryhandler.RetryHandler object at 0x13e2801c0>
+2023-06-23 16:38:05:DEBUG:No retry needed.
+2023-06-23 16:38:05:DEBUG:Event needs-retry.s3.CreateBucket: calling handler <bound method S3RegionRedirectorv2.redirect_from_error of <botocore.utils.S3RegionRedirectorv2 object at 0x13e280220>>
+2023-06-23 16:38:42:INFO::get_mysql_connections::Initiate SQL Alchemy Engine with configuration and returns it
+2023-06-23 16:38:42:INFO::__decrypt::Decrypt the encrypted password using provided key and returns string type password
+2023-06-23 16:38:42:INFO::__decrypt::Completed with results <class 'str'>.
+2023-06-23 16:38:42:INFO::get_mysql_connections::Completed with results <class 'sqlalchemy.engine.base.Engine'>.
+2023-06-23 16:39:06:INFO::get_weather_api_session:: Fetch requests.session() object
+2023-06-23 16:39:06:INFO::get_weather_api_session::Completed with results <class 'requests.sessions.Session'>.
+2023-06-23 16:39:06:INFO::fetch_most_populated_zipcodes::Query zipcodes_info to fetch most populated zipcodes in a county, converts to Series and returns it
+2023-06-23 16:39:06:INFO::get_mysql_connections::Initiate SQL Alchemy Engine with configuration and returns it
+2023-06-23 16:39:06:INFO::__decrypt::Decrypt the encrypted password using provided key and returns string type password
+2023-06-23 16:39:06:INFO::__decrypt::Completed with results <class 'str'>.
+2023-06-23 16:39:06:INFO::get_mysql_connections::Completed with results <class 'sqlalchemy.engine.base.Engine'>.
+2023-06-23 16:39:15:INFO::fetch_most_populated_zipcodes::Completed with results <class 'pandas.core.series.Series'>.
+2023-06-23 16:39:15:INFO::fetch_weather_reports::Takes a Series of zipcodes, and HTTP requests Session to make API get call for each zipcode, returns a list of
+     dictionary containing weather_reports.
+2023-06-23 16:39:15:DEBUG:Starting new HTTPS connection (1): weatherapi-com.p.rapidapi.com:443
+2023-06-23 16:39:15:DEBUG:https://weatherapi-com.p.rapidapi.com:443 "GET /current.json?q=01027 HTTP/1.1" 200 None
+2023-06-23 16:39:16:DEBUG:https://weatherapi-com.p.rapidapi.com:443 "GET /current.json?q=01085 HTTP/1.1" 200 None
+2023-06-23 16:39:16:DEBUG:https://weatherapi-com.p.rapidapi.com:443 "GET /current.json?q=01201 HTTP/1.1" 200 None
+2023-06-23 16:39:16:INFO::fetch_weather_reports::Completed with results <class 'list'>.
+2023-06-23 19:55:37:INFO::get_weather_api_session:: Fetch requests.session() object
+2023-06-23 19:55:37:INFO::get_weather_api_session::Completed with results <class 'requests.sessions.Session'>.
+2023-06-23 19:55:37:INFO::fetch_most_populated_zipcodes::Query zipcodes_info to fetch most populated zipcodes in a county, converts to Series and returns it
+2023-06-23 19:55:37:INFO::get_mysql_connections::Initiate SQL Alchemy Engine with configuration and returns it
+2023-06-23 19:55:37:INFO::__decrypt::Decrypt the encrypted password using provided key and returns string type password
+2023-06-23 19:55:37:INFO::__decrypt::Completed with results <class 'str'>.
+2023-06-23 19:55:37:INFO::get_mysql_connections::Completed with results <class 'sqlalchemy.engine.base.Engine'>.
+2023-06-23 22:56:34:INFO::get_weather_db_conn::Initiate SQL Alchemy Engine with configuration and returns it
+2023-06-23 22:56:34:INFO::__decrypt::Decrypt the encrypted password using provided key and returns string type password
+2023-06-23 22:56:34:INFO::__decrypt::Completed with results <class 'str'>.
+2023-06-23 22:56:34:INFO::get_weather_db_conn::Completed with results <class 'sqlalchemy.engine.base.Engine'>.

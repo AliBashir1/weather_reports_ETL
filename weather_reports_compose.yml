@@ -1,0 +1,141 @@
+version: '3.8'
+x-airflow-common-env: &airflow-common-env
+  AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+  AIRFLOW__CORE__EXECUTOR: CeleryExecutor
+  AIRFLOW__CORE__DAGS_FOLDER: /project_files/src
+  AIRFLOW__CORE__PLUGINS_FOLDER: /project_files/plugins
+  AIRFLOW__LOGGING__BASE_LOG_FOLDER: /project_files/logs
+  AIRFLOW__SCHEDULER__ENABLE_HEALTH_CHECK: 'true'
+
+x-airflow-connection-env: &airflow-conn-env
+  AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: ${AIRFLOW_POSTGRES_CONN_STR}
+  AIRFLOW__CELERY__RESULT_BACKEND: ${AIRFLOW_CELERY_RESULT_BACKEND}
+  AIRFLOW__CELERY__BROKEN_URL: ${CELERY_BROKER_URL}
+
+x-airflow-core-mounts: &airflow-core-mounts
+  - /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_project/project_files/logs:/project_files/logs
+  - /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_project/project_files/plugins:/project_files/plugins
+  - /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_project/Docker/airflow/config/airflow.cfg:/project_files/airflow.cfg
+
+x-airflow-project-mounts: &airflow-project-mounts
+  - /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_project/project_requirements.txt:/project_requirements.txt
+  - /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_project/project_files/src:/project_files/src
+  - /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_project/project_files/logs:/project_files/logs
+  - /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_project/project_files/plugins:/project_files/plugins
+  - /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_project/Docker/airflow/config/airflow.cfg:/project_files/airflow.cfg
+
+x-airflow-comm: &airflow-common
+  build: "Docker/airflow"
+  restart: always
+
+services:
+  weather_db_postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - wr_vl:/usr/lib/postgresql/data
+      - /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_project/Docker/weather_db/resources:/resources
+      - /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_project/Docker/weather_db/config/pg_hba.conf:/usr/lib/postgresql/data/pg_hba.conf
+      - /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_project/Docker/weather_db/config/postgresql.conf:/usr/lib/postgresql/data/postgresql.conf
+      - /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_project/Docker/weather_db/scripts:/scripts
+      - /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_project/Docker/weather_db/scripts/sql/initdb:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "alibashir"]
+      interval: 10s
+      retries: 5
+      start_period: 5s
+    restart: always
+
+  airflow-msg-broker:
+    image: redis:latest
+    command: redis-server --requirepass ${REDIS_PASSWORD}
+    expose:
+      - 6379
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      timeout: 30s
+      retries: 50
+    restart: always
+
+
+  airflow-webserver:
+    <<: *airflow-common
+    environment:
+      <<: [ *airflow-common-env, *airflow-conn-env ]
+    volumes:
+      *airflow-core-mounts
+    ports:
+      - 8080:8080
+    depends_on:
+      - weather_db_postgres
+      - airflow-msg-broker
+    command:
+      - webserver
+    healthcheck:
+      test: [ "CMD","curl", "--fail", "http://localhost:8080/health" ]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+
+  airflow-flower:
+    <<: *airflow-common
+    environment:
+      << : *airflow-conn-env
+    ports:
+      - "5555:5555"
+    depends_on:
+      - airflow-msg-broker
+      - weather_db_postgres
+    command: flower
+    healthcheck:
+      test: [ "CMD", "curl", "--fail", "http://localhost:5555/" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  airflow-scheduler:
+    << : *airflow-common
+    environment:
+      <<: [ *airflow-common-env, *airflow-conn-env ]
+    volumes:
+      *airflow-project-mounts
+    command:
+      - scheduler
+    depends_on:
+      - airflow-webserver
+    healthcheck:
+      test: [ "CMD", "curl", "--fail", "http://localhost:8974/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+
+  airflow-worker:
+    << : *airflow-common
+    environment:
+      <<: [ *airflow-common-env, *airflow-conn-env ]
+      REDIS_PASS: ${REDIS_PASSWORD}
+    volumes:
+      *airflow-project-mounts
+    command: worker
+    depends_on:
+      - airflow-scheduler
+      - airflow-msg-broker
+      - weather_db_postgres
+    healthcheck:
+      test: ["CMD-SHELL", 'celery --app airflow.executors.celery_executor.app inspect ping -d "celery@$${HOSTNAME}"']
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+volumes:
+  wr_vl:
+    driver: local

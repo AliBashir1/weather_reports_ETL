@@ -1,0 +1,27 @@
+2023-06-26 21:22:02:INFO::fetch_most_populated_zipcodes::Query zipcodes_info to fetch most populated zipcodes in a county, converts to Series and returns it
+2023-06-26 21:22:02:INFO::get_mysql_connections::Initiate SQL Alchemy Engine with configuration and returns it
+2023-06-26 21:22:02:INFO::__decrypt::Decrypt the encrypted password using provided key and returns string type password
+2023-06-26 21:22:02:INFO::__decrypt::Completed with results <class 'str'>.
+2023-06-26 21:22:02:INFO::get_mysql_connections::Completed with results <class 'sqlalchemy.engine.base.Engine'>.
+2023-06-26 21:22:02:DEBUG::fetch_most_populated_zipcodes::message::(pymysql.err.OperationalError) (2003, "Can't connect to MySQL server on 'localhost' ([Errno 61] Connection refused)")
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+2023-06-26 21:22:16:INFO::fetch_most_populated_zipcodes::Query zipcodes_info to fetch most populated zipcodes in a county, converts to Series and returns it
+2023-06-26 21:22:16:INFO::get_mysql_connections::Initiate SQL Alchemy Engine with configuration and returns it
+2023-06-26 21:22:16:INFO::__decrypt::Decrypt the encrypted password using provided key and returns string type password
+2023-06-26 21:22:16:INFO::__decrypt::Completed with results <class 'str'>.
+2023-06-26 21:22:16:INFO::get_mysql_connections::Completed with results <class 'sqlalchemy.engine.base.Engine'>.
+2023-06-26 21:22:16:DEBUG::fetch_most_populated_zipcodes::message::(pymysql.err.OperationalError) (2003, "Can't connect to MySQL server on 'localhost' ([Errno 61] Connection refused)")
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+2023-06-26 21:22:37:INFO::fetch_most_populated_zipcodes::Query zipcodes_info to fetch most populated zipcodes in a county, converts to Series and returns it
+2023-06-26 21:22:37:INFO::get_mysql_connections::Initiate SQL Alchemy Engine with configuration and returns it
+2023-06-26 21:22:37:INFO::__decrypt::Decrypt the encrypted password using provided key and returns string type password
+2023-06-26 21:22:37:INFO::__decrypt::Completed with results <class 'str'>.
+2023-06-26 21:22:37:INFO::get_mysql_connections::Completed with results <class 'sqlalchemy.engine.base.Engine'>.
+2023-06-26 21:22:37:DEBUG::fetch_most_populated_zipcodes::message::(pymysql.err.OperationalError) (2003, "Can't connect to MySQL server on 'localhost' ([Errno 61] Connection refused)")
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+2023-06-26 21:22:50:INFO::fetch_most_populated_zipcodes::Query zipcodes_info to fetch most populated zipcodes in a county, converts to Series and returns it
+2023-06-26 21:22:50:INFO::get_mysql_connections::Initiate SQL Alchemy Engine with configuration and returns it
+2023-06-26 21:22:50:INFO::__decrypt::Decrypt the encrypted password using provided key and returns string type password
+2023-06-26 21:22:50:INFO::__decrypt::Completed with results <class 'str'>.
+2023-06-26 21:22:50:INFO::get_mysql_connections::Completed with results <class 'sqlalchemy.engine.base.Engine'>.
+2023-06-26 21:22:59:INFO::fetch_most_populated_zipcodes::Completed with results <class 'pandas.core.series.Series'>.
