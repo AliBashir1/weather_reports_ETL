@@ -1,6 +1,6 @@
 from cryptography.fernet import Fernet, InvalidToken
 from src.weather_reports_etl.utilities.log import log
-
+from src.weather_reports_etl.utilities.config_parser import get_config_parser
 
 @log
 def __decrypt(encrypted_password: str = None) -> str:

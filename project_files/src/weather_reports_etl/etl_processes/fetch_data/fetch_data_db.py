@@ -35,7 +35,7 @@ def fetch_most_populated_zipcodes() -> bool:
         raise e
 
     if most_populated_zipcodes is not None:
-        most_populated_zipcodes.to_csv("airflow-worker:/project_files/src/weather_reports_etl/data/zipcodes.csv", index=False)
+        most_populated_zipcodes.to_csv("/project_files/src/weather_reports_etl/data/zipcodes.csv", index=False)
         return True
 
 

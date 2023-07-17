@@ -11,11 +11,9 @@ notes.txt
 
 # project
 project_files/src/weather_reports_etl/config/conf.ini
-project_files/job_automation/airflow.cfg
-project_files/job_automation/logs
-project_files/logs
 project_files/src/weather_reports_etl/log
-
+project_files/logs
+project_files/src/dags/scrap_dags
 
 # docker
 Docker/airflow/config/airflow.cfg
