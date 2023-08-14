@@ -3,10 +3,11 @@ import logging
 from logging import Logger
 import os
 from datetime import date
-from src.weather_reports_etl.utilities.definitions import ROOT_DIR
+from src.weather_reports_etl.utilities.files import ROOT_DIR
 from pandas import DataFrame
 from pandas import Series
 
+from requests.exceptions import HTTPError
 
 def _get_logger() -> Logger:
     """Initiate Logger, add log_file and stream handler to it, returns an instance of Logger"""
@@ -48,20 +49,16 @@ def log(func):
     @functools.wraps(func)
     def log_wrapper(*args, **kwargs):
         logger.info(":{}::{}".format(func.__name__, func.__doc__))
-        try:
-            result = func(*args, **kwargs)
-            # return type is used for logging purposes.
-            temp = result
-            if type(temp) == DataFrame or Series or list or tuple:
-                temp = type(temp)
-            if temp is None:
-                logger.info(":{}::Completed.".format(func.__name__))
-            else:
-                logger.info(":{}::Completed with results {}.".format(func.__name__, temp))
-            return result
-        except Exception as e:
-            logger.debug(":{}::message::{}".format(func.__name__, str(e)))
-
+        result = func(*args, **kwargs)
+        # return type is used for logging purposes.
+        temp = result
+        if type(temp) == DataFrame or Series or list or tuple:
+            temp = type(temp)
+        if temp is None:
+            logger.info(":{}::Completed.".format(func.__name__))
+        else:
+            logger.info(":{}::Completed with results {}.".format(func.__name__, temp))
+        return result
     return log_wrapper
 
 

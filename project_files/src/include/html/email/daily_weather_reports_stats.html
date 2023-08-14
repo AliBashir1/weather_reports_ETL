@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+         .table {
+            border: 2px solid black;
+            width: 600px;
+            background-color: grey
+         }
+        .title {   font: Helvetica;
+                    font-color: black;
+                    font-weight: 300;
+                    font-size: 1.5rem;
+                    letter-spacing: 0.3rem;
+                    border: 1px solid black;
+                    }
+        .row {
+            background-color: lightgrey;
+            height: 80px;
+            text-align:center;
+            }
+       td {
+        font: "Lucida Console", monospace;
+       }
+
+
+    </style>
+    <title>Title</title>
+</head>
+<body>
+
+<table class="table">
+
+    <thead>
+        <tr>
+            <th class="title" colspan="3"> {{ params.dag_id }} </th>
+
+        </tr>
+    </thead>
+     <thead>
+        <tr>
+            <th class="title" colspan="3">{{ print_today_date() }} </th>
+        </tr>
+    </thead>
+    <tbody>
+            <tr class="row" >
+                <td> Load ID </td>
+                <td> {{ ti.xcom_pull(key="load_id") }}</td>
+                <td> a load id is an identifier for the loaded batch </td>
+            </tr>
+        <tr class="row" >
+            <td> Job Scheduled Datetime </td>
+            <td> {{ params.scheduled_datetime | format_date_filter }} </td>
+            <td> Scheduled time of the job </td>
+        </tr>
+        <tr class="row" >
+            <td> Execution Start Datetime </td>
+            <td> {{ ti.xcom_pull(key="start_date") | format_date_filter }} </td>
+            <td> Start time of job's execution. </td>
+        </tr>
+        <tr class="row" >
+            <td> Execution End Datetime </td>
+            <td>{{ ti.xcom_pull(key="end_date") | format_date_filter }}</td>
+            <td> End time of job's execution. </td>
+        </tr>
+         <tr class="row" >
+            <td> Total Execution Time </td>
+            <td> {{ total_execution_time(ti.xcom_pull(key="start_date"), ti.xcom_pull(key="end_date") )   }} </td>
+             <td> Total time taken to complete the execution of the job. </td>
+        </tr>
+        <tr class="row" >
+            <td> Number of files Processed </td>
+            <td> {{ params.files_processed }}</td>
+            <td> This is a number of files and its total number records loaded into database. The expected number of file are 4.</td>
+        </tr>
+       <tr class="row" >
+            <td> Number of records Processed </td>
+            <td>{{ params.records_processed }}</td>
+            <td> This is a number of files and its total number records loaded into database. The expected records are 3122 * 4</td>
+        </tr>
+
+        <tr class="row" >
+                <td>Status of Job </td>
+                <td>{{ params.job_status }}</td>
+                <td> Job status is partial or failed if number of records or number of files are less than expected.  </td>
+        </tr>
+         <tr class="row" >
+                <td> Next Job Execution Time</td>
+                <td> {{ params.next_scheduled_dagrun_datetime }} </td>
+                <td> Next Schedule time </td>
+        </tr>
+    </tbody>
+</table>
+</body>
+</html>

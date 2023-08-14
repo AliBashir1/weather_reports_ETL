@@ -1,7 +1,7 @@
 import pandas as pd
 from pandas import DataFrame
 import time
-from project_files.src.weather_reports_etl.utilities.definitions import ROOT_DIR
+from project_files.src.weather_reports_etl.utilities.files import ROOT_DIR
 import os
 from sqlalchemy.exc import DBAPIError, SQLAlchemyError, IntegrityError
 from sqlalchemy.engine.base import Engine
@@ -11,7 +11,6 @@ from project_files.src.weather_reports_etl.utilities.log import log
 """
 Following methods are going to be run only one time to ensure that data is cleaned and loaded into database.
 """
-
 
 @log
 def _clean_zipcodes_info() -> DataFrame:
@@ -64,10 +63,10 @@ def load_zipcodes_info_tbl(zipcode_df: DataFrame, con: Engine = None) -> None:
 def does_tbl_exist(table_name: str, schema_name: str = "zipcodes_db", con: Engine = None) -> bool:
     """Checks if the table exists."""
     query = """
-    SELECT count(*)
-    FROM information_schema.TABLES
-        WHERE (TABLE_SCHEMA = "{}") 
-            AND (TABLE_NAME = "{}")
+            SELECT count(*)
+            FROM information_schema.TABLES
+                WHERE (TABLE_SCHEMA = "{}") 
+                    AND (TABLE_NAME = "{}")
     """.format(schema_name, table_name)
 
     with con.connect() as con:

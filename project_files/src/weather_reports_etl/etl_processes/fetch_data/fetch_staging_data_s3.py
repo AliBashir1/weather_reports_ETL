@@ -13,12 +13,12 @@ from src.weather_reports_etl.utilities.log import log
 def fetch_daily_staging_data(s3_client: BaseClient) -> list:
     """Fetch staging reports from aws s3 staging buckets and load into temporary folder"""
 
-    bucket_name = "staging-data-ab"
+    bucket_name = "ab-weather-reports"
     # previous day's report
-    keys = [f"weather-reports/{datetime.date.today() - timedelta(days=1)}/12-AM",
-            f"weather-reports/{datetime.date.today() - timedelta(days=1)}/06-AM",
-            f"weather-reports/{datetime.date.today() - timedelta(days=1)}/12-PM",
-            f"weather-reports/{datetime.date.today() - timedelta(days=1)}/06-PM"]
+    keys = [f"{datetime.date.today() - timedelta(days=1)}/12-AM",
+            f"{datetime.date.today() - timedelta(days=1)}/06-AM",
+            f"{datetime.date.today() - timedelta(days=1)}/12-PM",
+            f"{datetime.date.today() - timedelta(days=1)}/06-PM"]
 
     staging_data = []
     try:
