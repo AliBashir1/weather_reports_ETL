@@ -1,4 +1,0 @@
-2023-06-27 01:01:10:INFO::get_weather_db_conn::Initiate SQL Alchemy Engine with configuration and returns it
-2023-06-27 01:01:10:INFO::__decrypt::Decrypt the encrypted password using provided key and returns string type password
-2023-06-27 01:01:10:INFO::__decrypt::Completed with results <class 'str'>.
-2023-06-27 01:01:10:INFO::get_weather_db_conn::Completed with results <class 'sqlalchemy.engine.base.Engine'>.

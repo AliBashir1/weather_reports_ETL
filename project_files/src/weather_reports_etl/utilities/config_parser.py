@@ -1,18 +1,24 @@
+from __future__ import annotations
 import os
-from src.weather_reports_etl.utilities.definitions import ROOT_DIR
+from src.weather_reports_etl.utilities.files import ROOT_DIR
 import configparser
 from configparser import ConfigParser
 
 
 def get_config_parser() -> ConfigParser:
-    """Reads config_file.ini file, initiates ConfigParses and returns it"""
+    """
+    This function reads a conf.ini file, create config parses and returns it.
+    :return: a config parser
+    """
     # get an absolute path
-    config_file= os.path.join(ROOT_DIR, "config", "conf.ini")
-    # config_file = os.path.abspath(config_file_path)
-    config = configparser.ConfigParser()
+    config_file: str = os.path.join(ROOT_DIR, "config", "conf.ini")
+    config: ConfigParser | None = configparser.ConfigParser()
     config.read(config_file)
 
-    return config
+    if config is not None:
+        return config
+    else:
+        raise ValueError("Config is none type.")
 
 
 if __name__ == "__main__":

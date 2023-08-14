@@ -1,15 +1,20 @@
 import boto3
-from botocore.exceptions import ClientError
 from botocore.client import Config, BaseClient
+from botocore.exceptions import ClientError
+
 from src.weather_reports_etl.utilities.config_parser import get_config_parser
 from src.weather_reports_etl.utilities.encryptions import __decrypt
 
 
 def get_s3_client() -> BaseClient:
+    """
+    Initiate a s3 client using  credentialn from conf.ini file and return it
+    :return: a s3 connection client.
+    """
     # get aws access id and key
     config_parser = get_config_parser()
     access_id = __decrypt(config_parser.get("AWS", "aws_access_key_id"))
-    access_key = __decrypt( config_parser.get("AWS", "aws_secret_access_key") )
+    access_key = __decrypt(config_parser.get("AWS", "aws_secret_access_key"))
 
     config = Config(
         connect_timeout=120,

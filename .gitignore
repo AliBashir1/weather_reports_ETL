@@ -14,9 +14,19 @@ project_files/src/weather_reports_etl/config/conf.ini
 project_files/src/weather_reports_etl/log
 project_files/logs
 project_files/src/dags/scrap_dags
+# temporary
+project_files/src/weather_reports_etl/connections/aws_connections.py
+project_files/src/weather_reports_etl/etl_processes/load_data/load_to_awss3_bucket.py
+project_files/src/weather_reports_etl/etl_processes/load_data/load_weather_reports_tbl.py
+project_files/src/weather_reports_etl/etl_processes/fetch_data/fetch_staging_data_s3.py
+project_files/src/weather_reports_etl/etl_processes/load_data/load_zipcodes_info_tbl.py
+
 
 # docker
 Docker/airflow/config/airflow.cfg
 Docker/airflow/scripts/entrypoint.sh
 Docker/weather_db/scripts/sql/scraps.sql
+
+
+
 
