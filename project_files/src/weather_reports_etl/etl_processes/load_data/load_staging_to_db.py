@@ -97,6 +97,8 @@ if __name__ == "__main__":
     # files = get_staging_reports_path()
     # job_status = get_job_status(len(files), len(files) * 3122)
     # print(job_status)
-    clean_and_load_weather_reports()
+    files_path = get_staging_reports_path()
+    a = clean_transform_weather_reports(files_path)
+    print(a)
     # /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_project/project_files/src/weather_reports_etl/data/staging/2023-07-29/weather-reports-12-AM.json
     # /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_project/project_files/src/weather_reports_etl/data/staging/2023-07-29/weather-reports-12-AM.json

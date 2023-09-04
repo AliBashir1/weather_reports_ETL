@@ -1,13 +1,15 @@
 from __future__ import annotations
 
+from functools import lru_cache
+
 import pandas as pd
 from pandas import DataFrame
 from typing import List
 from src.weather_reports_etl.utilities.log import log
 
-# add lru_cache decorator for faster execution.
 
 @log
+@lru_cache
 def clean_transform_weather_reports(weather_reports: List[dict] | None= None) -> DataFrame:
     """
     A weather reports is a list of dictionary, each dictionary is containing the information of the weather of a zipcode.
@@ -22,8 +24,9 @@ def clean_transform_weather_reports(weather_reports: List[dict] | None= None) ->
                          'current.condition.icon', 'current.condition.code', 'current.wind_kph', 'current.pressure_in',
                          'current.precip_in', 'current.feelslike_c', 'current.vis_km', 'current.gust_kph']
 
-    if weather_reports is not None:
+    if weather_reports is not None and len(weather_reports) > 0:
         # normalize json format, convert to df and concat it
+        print(weather_reports)
         weather_df = pd.concat([pd.json_normalize(report) for report in weather_reports])
 
         # Convert data_type
@@ -42,12 +45,5 @@ def clean_transform_weather_reports(weather_reports: List[dict] | None= None) ->
 
         return weather_df
     else:
-        raise AttributeError("Weather Report cannot be None")
+        raise AttributeError("Weather Report cannot be None or empty")
 
-if __name__ == "__main__":
-    import time
-
-    start_time = time.time()
-    from project_files.src.weather_reports_etl.connections.api_connection import get_weather_api_session
-    from project_files.src.weather_reports_etl.etl_processes.fetch_data.fetch_data_db import create_most_populated_zipcodes_file
-    from project_files.src.weather_reports_etl.etl_processes.fetch_data.fetch_data_api import fetch_weather_reports

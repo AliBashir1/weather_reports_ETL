@@ -80,7 +80,7 @@ def fetch_weather_reports() -> dict:
             except HTTPError as exec:
                 write_error_report(zipcode=zipcode,
                                    http_status_code=exec.response.status_code,
-                                   description=exec.strerror,
+                                   description=str(exec),
                                    api_errors=1006, retry='No'
                                    )
                 # 1006 represent invalid zipcode, which can be handled later.
@@ -93,7 +93,7 @@ def fetch_weather_reports() -> dict:
             except RetryError as exec:
                 write_error_report(zipcode=zipcode,
                                    http_status_code=None,
-                                   description=exec.strerror,
+                                   description=str(exec),
                                    api_errors=None,
                                    retry='Yes' )
                 continue
