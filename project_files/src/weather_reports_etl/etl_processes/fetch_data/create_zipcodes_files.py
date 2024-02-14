@@ -5,10 +5,8 @@ from sqlalchemy.exc import DBAPIError
 
 from src.weather_reports_etl.connections.weather_db_conn import get_weather_db_conn
 from src.weather_reports_etl.utilities.files import ZIPCODES_FILEPATH
-from src.weather_reports_etl.utilities.log import log
 
 
-@log
 def create_most_populated_zipcodes_file() -> bool:
     """
     Function shall create a csv file containing the most populated zipcodes grouped by state and county.

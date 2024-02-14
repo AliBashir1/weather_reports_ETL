@@ -6,11 +6,10 @@ from sqlalchemy.engine.base import Engine
 
 from src.weather_reports_etl.utilities.encryptions import __decrypt
 from src.weather_reports_etl.utilities.config_parser import get_config_parser
-from src.weather_reports_etl.utilities.log import log
+
 
 
 @lru_cache
-@log
 def get_weather_db_conn() -> Engine:
     """
     Initiate SQL Alchemy Engine with configuration and returns it

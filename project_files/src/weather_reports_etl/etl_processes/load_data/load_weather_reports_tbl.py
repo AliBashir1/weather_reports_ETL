@@ -3,7 +3,7 @@ from sqlalchemy.engine.base import Engine
 from project_files.src.weather_reports_etl.utilities.log import log
 from pandas import DataFrame
 
-@log
+
 def load_weather_reports_tbl(weather_reports_df: DataFrame = None, eng: Engine = None ) -> None:
     """Loads weather_reports_df to weather_reports_table"""
     if weather_reports_df is not None:

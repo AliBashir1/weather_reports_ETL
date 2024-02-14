@@ -19,8 +19,8 @@ from airflow.utils.task_group import TaskGroup
 from airflow.utils.trigger_rule import TriggerRule
 
 # ETL
-from src.weather_reports_etl.etl_processes.fetch_data.fetch_data_api import fetch_weather_reports
-from src.weather_reports_etl.etl_processes.fetch_data.fetch_data_db import create_most_populated_zipcodes_file
+from src.weather_reports_etl.etl_processes.fetch_data.fetch_weather_reports import fetch_weather_reports
+from src.weather_reports_etl.etl_processes.fetch_data.create_zipcodes_files import create_most_populated_zipcodes_file
 from src.weather_reports_etl.connections.api_connection import get_weather_api_credential
 
 
@@ -98,6 +98,7 @@ with DAG(
             python_callable=create_most_populated_zipcodes_file,
 
         )
+
         does_zipcode_file_exists >> is_weather_db_available >> create_zipcodes_file
 
     # dag level
@@ -126,7 +127,6 @@ with DAG(
 
 
     )
-
 
 
 

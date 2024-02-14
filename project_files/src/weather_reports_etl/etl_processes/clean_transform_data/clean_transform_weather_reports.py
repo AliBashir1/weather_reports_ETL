@@ -5,10 +5,9 @@ from functools import lru_cache
 import pandas as pd
 from pandas import DataFrame
 from typing import List
-from src.weather_reports_etl.utilities.log import log
 
 
-@log
+
 @lru_cache
 def clean_transform_weather_reports(weather_reports: List[dict] | None= None) -> DataFrame:
     """

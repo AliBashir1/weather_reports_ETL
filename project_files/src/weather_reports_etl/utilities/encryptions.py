@@ -1,11 +1,9 @@
 from __future__ import annotations
 
 from cryptography.fernet import Fernet, InvalidToken
-from src.weather_reports_etl.utilities.log import log
 from src.weather_reports_etl.utilities.config_parser import get_config_parser
 from configparser import ConfigParser
 
-@log
 def __decrypt(encrypted_password: str = None) -> str:
     """
     The function shall decrypt the encrypted password and return it in string format.

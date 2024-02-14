@@ -8,7 +8,7 @@ from pandas import DataFrame
 from pandas import Series
 
 from requests.exceptions import HTTPError
-
+#
 def _get_logger() -> Logger:
     """Initiate Logger, add log_file and stream handler to it, returns an instance of Logger"""
     LOG_FILE = f"{str(date.today())}_errors.log"
@@ -39,44 +39,44 @@ def _get_logger() -> Logger:
     return logger
 
 
-# todo find better way to handle this
-logger = _get_logger()
+# todo: Find a better way to log the function name and docstring.
+# logger = _get_logger()
 
+#
+# def log(func):
+#     """Logs functions activity to log_file and stream"""
+#
+#     @functools.wraps(func)
+#     def log_wrapper(*args, **kwargs):
+#         logger.info(":{}::{}".format(func.__name__, func.__doc__))
+#         result = func(*args, **kwargs)
+#         # return type is used for logging purposes.
+#         temp = result
+#         if type(temp) == DataFrame or Series or list or tuple:
+#             temp = type(temp)
+#         if temp is None:
+#             logger.info(":{}::Completed.".format(func.__name__))
+#         else:
+#             logger.info(":{}::Completed with results {}.".format(func.__name__, temp))
+#         return result
+#     return log_wrapper
 
-def log(func):
-    """Logs functions activity to log_file and stream"""
-
-    @functools.wraps(func)
-    def log_wrapper(*args, **kwargs):
-        logger.info(":{}::{}".format(func.__name__, func.__doc__))
-        result = func(*args, **kwargs)
-        # return type is used for logging purposes.
-        temp = result
-        if type(temp) == DataFrame or Series or list or tuple:
-            temp = type(temp)
-        if temp is None:
-            logger.info(":{}::Completed.".format(func.__name__))
-        else:
-            logger.info(":{}::Completed with results {}.".format(func.__name__, temp))
-        return result
-    return log_wrapper
-
-
-if __name__ == "__main__":
-    @log
-    def afunc():
-        return 3 + 5
-
-
-
-    @log
-    def afunc1():
-        return 6 + 5
-
-
-    @log
-    def afunc2():
-        return 7 + 5
-
-
-    afunc()
+#
+# if __name__ == "__main__":
+#     @log
+#     def afunc():
+#         return 3 + 5
+#
+#
+#
+#     @log
+#     def afunc1():
+#         return 6 + 5
+#
+#
+#     @log
+#     def afunc2():
+#         return 7 + 5
+#
+#
+#     afunc()

@@ -1,48 +1,57 @@
 version: '3.8'
 x-airflow-common-env: &airflow-common-env
-  AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
-  AIRFLOW__CORE__EXECUTOR: CeleryExecutor
-  AIRFLOW__CORE__DAGS_FOLDER: /project_files/src
-  AIRFLOW__CORE__PLUGINS_FOLDER: /project_files/src/plugins
-  AIRFLOW__LOGGING__BASE_LOG_FOLDER: /project_files/logs
+  AIRFLOW__CORE__LOAD_EXAMPLES: ${AIRFLOW__CORE__LOAD_EXAMPLES}
+  AIRFLOW__CORE__EXECUTOR: ${AIRFLOW__CORE__EXECUTOR}
+  AIRFLOW__CORE__DAGS_FOLDER: ${AIRFLOW__CORE__DAGS_FOLDER}
+  AIRFLOW__CORE__PLUGINS_FOLDER: ${AIRFLOW__CORE__PLUGINS_FOLDER}
+  AIRFLOW__LOGGING__BASE_LOG_FOLDER: ${AIRFLOW__LOGGING__BASE_LOG_FOLDER}
   AIRFLOW__SCHEDULER__ENABLE_HEALTH_CHECK: 'true'
+  AIRFLOW__SMTP__SMTP_HOST:  ${AIRFLOW__SMTP__SMTP_HOST}
+  AIRFLOW__SMTP__SMTP_STARTTLS: ${AIRFLOW__SMTP__SMTP_STARTTLS}
+  AIRFLOW__SMTP__SMTP_SSL: ${AIRFLOW__SMTP__SMTP_SSL}
+  AIRFLOW__SMTP__SMTP_USER: ${AIRFLOW__SMTP__SMTP_USER}
+  AIRFLOW__SMTP__SMTP_PASSWORD: ${AIRFLOW__SMTP__SMTP_PASSWORD}
+  AIRFLOW__SMTP__SMTP_PORT: ${AIRFLOW__SMTP__SMTP_PORT}
+  AIRFLOW__SMTP__SMTP__SMTP_MAIL_FROM: ${AIRFLOW__SMTP__SMTP__SMTP_MAIL_FROM}
+  AIRFLOW__SMTP__SMTP__SMTP_TIMEOUT: ${AIRFLOW__SMTP__SMTP__SMTP_TIMEOUT}
+  AIRFLOW__SMTP__SMTP__SMTP_RETRY_LIMIT: ${AIRFLOW__SMTP__SMTP__SMTP_RETRY_LIMIT}
+
 
 x-airflow-connection-env: &airflow-conn-env
-  AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: ${AIRFLOW_POSTGRES_CONN_STR}
+  AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: ${AIRFLOW__DATABASE__SQL_ALCHEMY_CONN}
   AIRFLOW__CELERY__RESULT_BACKEND: ${AIRFLOW_CELERY_RESULT_BACKEND}
   AIRFLOW__CELERY__BROKEN_URL: ${CELERY_BROKER_URL}
 
 x-airflow-core-mounts: &airflow-core-mounts
-  - /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_project/project_files/logs:/project_files/logs
-  - /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_project/project_files/src/plugins:/project_files/src/plugins
-  - /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_project/Docker/airflow/config/airflow.cfg:/project_files/airflow.cfg
+  - airflow_logs_volume:/project_files/src/logs
+  - airflow_dags_volume:/project_files/src/dags
+  - airflow_plugins_volume:/project_files/src/plugins
+  - airflow_config_volume:/project_files/airflow.cfg
 
 x-airflow-project-mounts: &airflow-project-mounts
-  - /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_project/project_requirements.txt:/project_requirements.txt
-  - /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_project/project_files/src:/project_files/src
-  - /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_project/project_files/logs:/project_files/logs
-  - /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_project/project_files/plugins:/project_files/plugins
-  - /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_project/Docker/airflow/config/airflow.cfg:/project_files/airflow.cfg
+  - /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_etl/project_requirements.txt:/project_requirements.txt
+  - /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_etl/project_files/src:/project_files/src
+  - /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_etl/Docker/airflow/config/airflow.cfg:/project_files/airflow.cfg
 
 x-airflow-comm: &airflow-common
   build: "Docker/airflow"
   restart: always
 
+
 services:
   weather_db_postgres:
-    image: postgres:13
+    image: postgres:15
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATA: /var/lib/postgresql/data/pgdata
     ports:
       - "5432:5432"
     volumes:
-      - wr_vl:/usr/lib/postgresql/data
-      - /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_project/Docker/weather_db/resources:/resources
-      - /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_project/Docker/weather_db/config/pg_hba.conf:/usr/lib/postgresql/data/pg_hba.conf
-      - /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_project/Docker/weather_db/config/postgresql.conf:/usr/lib/postgresql/data/postgresql.conf
-      - /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_project/Docker/weather_db/scripts:/scripts
-      - /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_project/Docker/weather_db/scripts/sql/initdb:/docker-entrypoint-initdb.d
+      - wr_vl:/var/lib/postgresql/data
+      - /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_etl/Docker/weather_db/resources:/resources
+      - /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_etl/Docker/weather_db/scripts:/scripts
+      - /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_etl/Docker/weather_db/scripts/sql/initdb:/docker-entrypoint-initdb.d
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "alibashir"]
       interval: 10s
@@ -139,3 +148,12 @@ services:
 volumes:
   wr_vl:
     driver: local
+  airflow_logs_volume:
+      driver: local
+  airflow_dags_volume:
+      driver: local
+  airflow_plugins_volume:
+        driver: local
+  airflow_config_volume:
+        driver: local
+

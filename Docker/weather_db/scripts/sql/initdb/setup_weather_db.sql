@@ -4,11 +4,6 @@ CREATE DATABASE weather_db;
 -- how to hide this information from github
 CREATE ROLE weather_db_user WITH PASSWORD 'weatheruser123!' LOGIN;
 
--- revoke connecting access from public roles
-REVOKE CONNECT ON DATABASE weather_db FROM PUBLIC;
-GRANT CONNECT ON DATABASE weather_db TO weather_db_user;
--- grant all privileges to respective users
-GRANT ALL PRIVILEGES ON DATABASE weather_db TO weather_db_user;
 
 -- connect to db
 \c weather_db
@@ -152,15 +147,7 @@ INSERT INTO zipcodes_tbl (
             FROM
             zipcodes_csv_data;
 
--- Give access on tables to weather_db_user
-GRANT ALL ON TABLE zipcodes_tbl TO weather_db_user;
-GRANT ALL ON TABLE weather_reports_tbl TO weather_db_user;
-ALTER TABLE zipcodes_tbl OWNER TO weather_db_user;
-ALTER TABLE weather_reports_tbl OWNER TO weather_db_user;
--- CREATE index ON zipcodes_info FOR better query performances
-CREATE INDEX IF NOT EXISTS county_index ON zipcodes_tbl(county);
-CREATE INDEX IF NOT EXISTS city_index ON zipcodes_tbl(city);
-CREATE INDEX IF NOT EXISTS state_index ON zipcodes_tbl(state);
+
 
 
 -- PROCEDURES AND FUNCTIONS
@@ -251,8 +238,28 @@ CREATE OR REPLACE FUNCTION remove_hourly_job_staging_records()
 CREATE TRIGGER trig_remove_hourly_job_staging_records
     AFTER INSERT ON hourly_jobs_info
     FOR EACH ROW EXECUTE PROCEDURE remove_hourly_job_staging_records();
--- It shall trigger the function to remove staging data from staging table.
-CREATE TRIGGER hourly_job_transfer_trigger
-AFTER INSERT ON daily_jobs_info
-FOR EACH ROW EXECUTE PROCEDURE transfer_hourly_job_info();
+-- -- It shall trigger the function to remove staging data from staging table.
+-- CREATE TRIGGER hourly_job_transfer_trigger
+-- AFTER INSERT ON daily_jobs_info
+-- FOR EACH ROW EXECUTE PROCEDURE transfer_hourly_job_info_staged_data();
 
+-- revoke connecting access from public roles
+REVOKE CONNECT ON DATABASE weather_db FROM PUBLIC;
+GRANT CONNECT ON DATABASE weather_db TO weather_db_user;
+-- grant all privileges to respective users
+GRANT ALL PRIVILEGES ON DATABASE weather_db TO weather_db_user;
+-- Give access on tables to weather_db_user
+GRANT ALL ON TABLE zipcodes_tbl TO weather_db_user;
+GRANT ALL ON TABLE weather_reports_tbl TO weather_db_user;
+GRANT ALL ON TABLE daily_jobs_info TO weather_db_user;
+GRANT ALL ON TABLE hourly_jobs_info TO weather_db_user;
+GRANT ALL ON TABLE hourly_jobs_info_staged TO weather_db_user;
+ALTER TABLE zipcodes_tbl OWNER TO weather_db_user;
+ALTER TABLE weather_reports_tbl OWNER TO weather_db_user;
+ALTER TABLE daily_jobs_info OWNER TO weather_db_user;
+ALTER TABLE hourly_jobs_info OWNER TO weather_db_user;
+ALTER TABLE hourly_jobs_info_staged OWNER TO weather_db_user;
+-- CREATE index ON zipcodes_info FOR better query performances
+CREATE INDEX IF NOT EXISTS county_index ON zipcodes_tbl(county);
+CREATE INDEX IF NOT EXISTS city_index ON zipcodes_tbl(city);
+CREATE INDEX IF NOT EXISTS state_index ON zipcodes_tbl(state);

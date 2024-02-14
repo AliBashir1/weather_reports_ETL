@@ -19,6 +19,7 @@ RUN apt-get update -yqq \
     && pip install -U pip setuptools wheel \
     && pip install apache-airflow[crypto,postgres,jdbc,celery,http,amazon]==${AIRFLOW_VERSION} --constraint /airflow-requirements.txt \
     && pip install 'redis' \
+    && pip install 'psycopg2' \
     && apt-get autoremove -yqq --purge \
     && apt-get clean \
     && rm -rf \
@@ -26,16 +27,17 @@ RUN apt-get update -yqq \
 
 
 
-COPY scripts/entrypoint.sh /entrypoint.sh
+COPY scripts/entrypoint.sh entrypoint.sh
 COPY config/airflow.cfg ${AIRFLOW_USER_HOME}/airflow.cfg
 
 
-RUN chmod +x entrypoint.sh
+RUN chmod +x /entrypoint.sh
 RUN chown -R airflow: ${AIRFLOW_USER_HOME}
 
-
 EXPOSE 8080 5555 8793
+
 WORKDIR ${AIRFLOW_USER_HOME}
 ENTRYPOINT ["/entrypoint.sh"]
 USER airflow
+
 #CMD ["webserver"]

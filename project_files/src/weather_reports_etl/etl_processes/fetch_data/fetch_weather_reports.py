@@ -9,9 +9,8 @@ from src.weather_reports_etl.utilities.files import (ZIPCODES_FILEPATH,
                                                         create_file_name,
                                                         ERROR_REPORT_PATH
                                                          )
-from src.weather_reports_etl.utilities.log import log
+
 from src.weather_reports_etl.utilities.files import write_staging_report
-from src.weather_reports_etl.connections.api_connection import get_weather_api_session
 from src.weather_reports_etl.utilities.files import write_error_report
 
 def get_invalid_zipcodes_count()-> int:
@@ -29,7 +28,7 @@ def get_invalid_zipcodes_count()-> int:
     return invalid_zipcodes_count
 
 
-@log
+
 def fetch_weather_reports() -> dict:
     """
     This is a main function for hourly_weather_reports an airflow job. It uses zipcodes.csv data and make an HTTP request for each

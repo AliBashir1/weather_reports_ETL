@@ -14,6 +14,10 @@ project_files/src/weather_reports_etl/config/conf.ini
 project_files/src/weather_reports_etl/log
 project_files/logs
 project_files/src/dags/scrap_dags
+project_files/.cache
+project_files/.local
+project_files/airflow-worker.pid
+
 # temporary
 project_files/src/weather_reports_etl/connections/aws_connections.py
 project_files/src/weather_reports_etl/etl_processes/load_data/load_to_awss3_bucket.py
