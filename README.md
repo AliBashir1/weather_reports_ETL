@@ -86,10 +86,10 @@ I have added a directory path to see an example of work I have done in the respe
 ### Daily DAG ETL 
 ####  clean and load data :  https://github.com/AliBashir1/weather_reports_ETL/blob/main/project_files/src/etl_processes/clean_transform_data/clean_transform_weather_reports.py
 #### https://github.com/AliBashir1/weather_reports_ETL/blob/main/project_files/src/dags/daily_weather_reports.py
-![daily-dag](https://github.com/AliBashir1/weather_reports_ETL/assets/img/daily-dag-image.png)
+![daily-dag](https://github.com/AliBashir1/weather_reports_ETL/blob/main/assets/img/daily-dag-image.png)
 ### Send Job Reports DAG IMAGE
 #### https://github.com/AliBashir1/weather_reports_ETL/blob/main/project_files/src/dags/send_job_reports.py
-![send-job-reports-dag](https://github.com/AliBashir1/weather_reports_ETL/assets/img/send-job-reports-dag-image.png)
+![send-job-reports-dag](https://github.com/AliBashir1/weather_reports_ETL/blob/main/assets/img/send-job-reports-dag-image.png)
 
 
 		
