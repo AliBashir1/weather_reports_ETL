@@ -9,17 +9,15 @@ from airflow import DAG
 from airflow.operators.empty import EmptyOperator
 from airflow.operators.python import PythonOperator
 from airflow.operators.trigger_dagrun import TriggerDagRunOperator
-from airflow.providers.postgres.hooks.postgres import PostgresHook
 # sensor
 from airflow.sensors.filesystem import FileSensor
 from airflow.providers.common.sql.sensors.sql import SqlSensor
 # utils
 from airflow.utils.task_group import TaskGroup
-from airflow.utils.context import Context
 
 # project
-from src.weather_reports_etl.etl_processes.load_data.load_staging_to_db import ( get_staging_reports_path,
-                                                                                clean_and_load_weather_reports )
+from src.etl_processes.load_data.load_staging_to_db import (get_staging_reports_path,
+                                                            clean_and_load_weather_reports)
 default_args = {
     "owner": "Ali Bashir",
     "start_date": dt.datetime(2023,7,29,1, tzinfo=pytz.timezone("America/New_York")),

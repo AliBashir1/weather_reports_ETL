@@ -5,13 +5,13 @@ from pandas import Series
 from requests import Session
 from requests.exceptions import HTTPError, RetryError
 
-from src.weather_reports_etl.utilities.files import (ZIPCODES_FILEPATH,
-                                                        create_file_name,
-                                                        ERROR_REPORT_PATH
-                                                         )
+from src.utilities.files import (ZIPCODES_FILEPATH,
+                                 create_file_name,
+                                 ERROR_REPORT_PATH
+                                 )
 
-from src.weather_reports_etl.utilities.files import write_staging_report
-from src.weather_reports_etl.utilities.files import write_error_report
+from src.utilities.files import write_staging_report
+from src.utilities.files import write_error_report
 
 def get_invalid_zipcodes_count()-> int:
     """
@@ -104,6 +104,7 @@ def fetch_weather_reports() -> dict:
 
     # Checks if weather_reports are not None
     if weather_reports:
+        # load data to staging
         write_staging_report(weather_reports)
         invalid_zipcodes_count = get_invalid_zipcodes_count()
 
@@ -120,7 +121,7 @@ def fetch_weather_reports() -> dict:
 
 if __name__ == "__main__":
     import time
-    from src.weather_reports_etl.connections.api_connection import get_weather_api_session
+    from src.utilities.connections import get_weather_api_session
 
     start_time = time.time()
     a = fetch_weather_reports()

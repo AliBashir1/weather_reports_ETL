@@ -5,9 +5,9 @@ import datetime as dt
 import pytz
 import json
 from pandas import DataFrame
-from src.weather_reports_etl.utilities.files import WEATHER_REPORT_STAGING_PATH
-from src.weather_reports_etl.etl_processes.clean_transform_data.clean_transform_weather_reports import clean_transform_weather_reports
-from src.weather_reports_etl.connections.weather_db_conn import get_weather_db_conn
+from src.utilities.files import WEATHER_REPORT_STAGING_PATH
+from src.etl_processes.clean_transform_data.clean_transform_weather_reports import clean_transform_weather_reports
+from src.utilities.connections.weather_db_conn import get_weather_db_conn
 from sqlalchemy.exc import DBAPIError, SQLAlchemyError, IntegrityError
 
 
@@ -79,6 +79,7 @@ def clean_and_load_weather_reports() -> dict:
     records_processed = cleaned_weather_reports.shape[0]
 
     try:
+        # load data to database
         with get_weather_db_conn().connect() as con:
             cleaned_weather_reports.to_sql(name="weather_reports_tbl",
                                            if_exists="append",
@@ -100,5 +101,5 @@ if __name__ == "__main__":
     files_path = get_staging_reports_path()
     a = clean_transform_weather_reports(files_path)
     print(a)
-    # /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_project/project_files/src/weather_reports_etl/data/staging/2023-07-29/weather-reports-12-AM.json
-    # /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_project/project_files/src/weather_reports_etl/data/staging/2023-07-29/weather-reports-12-AM.json
+    # /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_project/project_files/src/weather_reports_etl/data/staging/2023-07-29/weather-reports-6-AM.json
+    # /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_project/project_files/src/weather_reports_etl/data/staging/2023-07-29/weather-reports-6-AM.json

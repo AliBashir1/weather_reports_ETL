@@ -1,13 +1,10 @@
-import functools
 import logging
 from logging import Logger
 import os
 from datetime import date
-from src.weather_reports_etl.utilities.files import ROOT_DIR
-from pandas import DataFrame
-from pandas import Series
+from src.utilities.files import ROOT_DIR
 
-from requests.exceptions import HTTPError
+
 #
 def _get_logger() -> Logger:
     """Initiate Logger, add log_file and stream handler to it, returns an instance of Logger"""

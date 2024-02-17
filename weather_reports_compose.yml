@@ -26,12 +26,10 @@ x-airflow-core-mounts: &airflow-core-mounts
   - airflow_logs_volume:/project_files/src/logs
   - airflow_dags_volume:/project_files/src/dags
   - airflow_plugins_volume:/project_files/src/plugins
-  - airflow_config_volume:/project_files/airflow.cfg
 
 x-airflow-project-mounts: &airflow-project-mounts
   - /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_etl/project_requirements.txt:/project_requirements.txt
   - /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_etl/project_files/src:/project_files/src
-  - /Users/alibashir/Desktop/workspace.nosync/ETL/weather_reports_etl/Docker/airflow/config/airflow.cfg:/project_files/airflow.cfg
 
 x-airflow-comm: &airflow-common
   build: "Docker/airflow"

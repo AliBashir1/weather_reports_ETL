@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from cryptography.fernet import Fernet, InvalidToken
-from src.weather_reports_etl.utilities.config_parser import get_config_parser
+from src.utilities.config_parser import get_config_parser
 from configparser import ConfigParser
 
 def __decrypt(encrypted_password: str = None) -> str:

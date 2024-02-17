@@ -100,10 +100,6 @@ mypy-boto3-appflow==1.26.162
 mypy-boto3-rds==1.26.163
 mypy-boto3-redshift-data==1.26.109
 mypy-boto3-s3==1.26.163
-mysql==0.0.3
-mysql-client==0.0.1
-mysql-connector-python==8.0.11
-mysqlclient==2.1.1
 numpy==1.23.5
 packaging==21.3
 pandas==1.5.1

@@ -4,8 +4,8 @@ from configparser import ConfigParser
 from sqlalchemy import create_engine, text
 from sqlalchemy.engine.base import Engine
 
-from src.weather_reports_etl.utilities.encryptions import __decrypt
-from src.weather_reports_etl.utilities.config_parser import get_config_parser
+from src.utilities.encryptions import __decrypt
+from src.utilities.config_parser import get_config_parser
 
 
 

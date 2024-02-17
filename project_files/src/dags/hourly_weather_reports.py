@@ -19,9 +19,9 @@ from airflow.utils.task_group import TaskGroup
 from airflow.utils.trigger_rule import TriggerRule
 
 # ETL
-from src.weather_reports_etl.etl_processes.fetch_data.fetch_weather_reports import fetch_weather_reports
-from src.weather_reports_etl.etl_processes.fetch_data.create_zipcodes_files import create_most_populated_zipcodes_file
-from src.weather_reports_etl.connections.api_connection import get_weather_api_credential
+from src.etl_processes.fetch_data import fetch_weather_reports
+from src.etl_processes.fetch_data.create_zipcodes_files import create_most_populated_zipcodes_file
+from src.utilities.connections.api_connection import get_weather_api_credential
 
 
 
@@ -39,7 +39,7 @@ This process shall run every 6 hours, starting from midnight every day.
 """
 
 
-with DAG(
+with DAG (
         dag_id="fetch_load_hourly_weather_reports",
         description=desc,
         schedule_interval="0 0,6,12,18 * * *",  # 12 am, 6 am, 12 pm, 6 am
@@ -55,9 +55,9 @@ with DAG(
             task_id="is_weather_db_available",
             conn_id="weather_db_conn",
             sql="""
-                SELECT 
-                    datname 
-                FROM pg_catalog.pg_database 
+                SELECT
+                    datname
+                FROM pg_catalog.pg_database
                     WHERE datname ='weather_db'; """,
             fail_on_empty=True,
             mode="reschedule",
@@ -81,33 +81,22 @@ with DAG(
             timeout=30
 
         )
+        #
 
-        does_zipcode_file_exists = FileSensor(
-            task_id="is_zipcodes_file_available",
-            fs_conn_id="weather_fs_conn",
-            filepath="zipcodes.csv",
-            recursive=False,
-            mode="reschedule",
-            retries=1,
-            retry_delay=5,
-            timeout=10
-
-        )
         create_zipcodes_file = PythonOperator(
             task_id="create_zipcodes_file",
             python_callable=create_most_populated_zipcodes_file,
 
         )
 
-        does_zipcode_file_exists >> is_weather_db_available >> create_zipcodes_file
 
     # dag level
-    fetch_weather_reports_api = PythonOperator(
-        task_id="fetch_weather_reports_api",
-        python_callable=fetch_weather_reports,
-        trigger_rule=TriggerRule.NONE_FAILED_MIN_ONE_SUCCESS
-
-    )
+    # fetch_weather_reports_api = PythonOperator(
+    #     task_id="fetch_weather_reports_api",
+    #     python_callable=fetch_weather_reports,
+    #     trigger_rule=TriggerRule.NONE_FAILED_MIN_ONE_SUCCESS
+    #
+    # )
     trig_send_job_reports_dag = TriggerDagRunOperator(
         task_id="trig_send_job_reports_dag",
         trigger_dag_id="send_job_reports_dag",
@@ -130,4 +119,4 @@ with DAG(
 
 
 
-    start >> preliminary_check >> fetch_weather_reports_api  >> trig_send_job_reports_dag >> end
+    start >> preliminary_check   >> trig_send_job_reports_dag >> end

@@ -1,6 +1,5 @@
 from sqlalchemy.exc import IntegrityError, DBAPIError
 from sqlalchemy.engine.base import Engine
-from project_files.src.weather_reports_etl.utilities.log import log
 from pandas import DataFrame
 
 

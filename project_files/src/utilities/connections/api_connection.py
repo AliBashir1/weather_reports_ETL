@@ -4,8 +4,8 @@ from requests.sessions import Session
 from requests.adapters import HTTPAdapter, Retry
 from configparser import ConfigParser
 
-from src.weather_reports_etl.utilities.config_parser import get_config_parser
-from src.weather_reports_etl.utilities.encryptions import __decrypt
+from src.utilities.config_parser import get_config_parser
+from src.utilities.encryptions import __decrypt
 
 
 def get_weather_api_credential() -> dict:

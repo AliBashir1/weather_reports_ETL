@@ -1,6 +1,6 @@
 from __future__ import annotations
 import os
-from src.weather_reports_etl.utilities.files import ROOT_DIR
+from src.utilities.files import ROOT_DIR
 import configparser
 from configparser import ConfigParser
 
@@ -12,6 +12,7 @@ def get_config_parser() -> ConfigParser:
     """
     # get an absolute path
     config_file: str = os.path.join(ROOT_DIR, "config", "conf.ini")
+    print(config_file)
     config: ConfigParser | None = configparser.ConfigParser()
     config.read(config_file)
 

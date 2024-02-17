@@ -2,8 +2,8 @@ import boto3
 from botocore.client import Config, BaseClient
 from botocore.exceptions import ClientError
 
-from src.weather_reports_etl.utilities.config_parser import get_config_parser
-from src.weather_reports_etl.utilities.encryptions import __decrypt
+from src.utilities.config_parser import get_config_parser
+from src.utilities.encryptions import __decrypt
 
 
 def get_s3_client() -> BaseClient:
