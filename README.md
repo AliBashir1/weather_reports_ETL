@@ -82,7 +82,7 @@ I have added a directory path to see an example of work I have done in the respe
 ###### load _to_staging: 
 ###### dag:  https://github.com/AliBashir1/weather_reports_ETL/blob/main/project_files/src/dags/hourly_weather_reports.py
 
-![6-hour-dag](https://github.com/AliBashir1/weather_reports_ETL/assets/img/6-hourly-dag-image.png)
+![6-hour-dag](https://github.com/AliBashir1/weather_reports_ETL/tree/main/assets/img/6-hourly-dag-image.png)
 ### Daily DAG ETL 
 ####  clean and load data :  https://github.com/AliBashir1/weather_reports_ETL/blob/main/project_files/src/etl_processes/clean_transform_data/clean_transform_weather_reports.py
 #### https://github.com/AliBashir1/weather_reports_ETL/blob/main/project_files/src/dags/daily_weather_reports.py
